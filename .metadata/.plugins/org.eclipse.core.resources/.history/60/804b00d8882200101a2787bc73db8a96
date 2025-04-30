@@ -1,0 +1,115 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="header.jsp" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New Event</title>
+    <style>
+        ul.nav-menu {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px auto 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        ul.nav-menu li a {
+            text-decoration: none;
+            background-color: #9C27B0;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+
+        ul.nav-menu li a:hover {
+            background-color: #7B1FA2;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .btn-submit {
+            background-color: #9C27B0;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-submit:hover {
+            background-color: #7B1FA2;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <ul class="nav-menu">
+        <li><a href="/admin/dashboard">Home</a></li>
+        <li><a href="/admin/manageStudents">Manage Students</a></li>
+        <li><a href="/admin/danceForms">Dance Forms</a></li>
+        <li><a href="/admin/trackFees">Track Fees</a></li>
+        <li><a href="/admin/Events">Events</a></li>
+        <li><a href="/admin/Gallery">Gallery</a></li>
+    </ul>
+</nav>
+<br><br>
+
+<div class="form-container">
+    <h2>Add New Event</h2>
+    <form action="${pageContext.request.contextPath}/admin/saveEvent" method="post">
+        <div>
+            <label for="event_name">Event Name:</label>
+            <input type="text" id="eventName" name="event_name" required>
+        </div>
+        
+        
+         <div>
+            <label for="event_date">Event Date:</label>
+            <input type="date" id="eventDate" name="eventDate" required>
+        </div>
+        
+         <div>
+            <label for="eventLocation">Location:</label>
+            <input type="text" id="eventLocation" name="eventLocation" required>
+        </div>
+
+        <div>
+            <label for="event_desc">Description:</label>
+            <textarea id="eventDesc" name="eventDesc" rows="4" cols="50" required></textarea>
+        </div>
+
+       
+
+       
+
+        <button type="submit" class="btn-submit">Add Event</button>
+    </form>
+</div>
+
+</body>
+</html>
+
+<%@ include file="footer.jsp" %>

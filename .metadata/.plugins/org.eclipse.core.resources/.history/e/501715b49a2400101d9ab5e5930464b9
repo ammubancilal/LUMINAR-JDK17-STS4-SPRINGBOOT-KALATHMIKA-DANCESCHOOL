@@ -1,0 +1,52 @@
+package com.luminar.springbootkalathmika.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.luminar.springbootkalathmika.model.ClassStudent;
+import com.luminar.springbootkalathmika.model.Student;
+import com.luminar.springbootkalathmika.service.ClassStudentService;
+
+@Controller
+public class ClassStudentController {
+	
+	@Autowired
+    private ClassStudentService classStudentService;
+	
+	  @GetMapping("/admin/student/myClasses")
+	    public String viewMyClasses(Model model) {
+		  Integer studentId = (Integer) .getAttribute("StudentId");
+		    System.out.println("studentId is"+studentId);
+
+		    if (studentId == null) {
+		        model.addAttribute("errorMessage", "Student not found!");
+		        return "errorPage";
+		    }
+
+		    // Fetch the full student object based on studentId
+		    Student student = studentService.getStudentById(studentId);
+
+		    if (student == null) {
+		        model.addAttribute("errorMessage", "Student not found!");
+		        return "errorPage"; // Show error page if student is not found
+		    }
+
+		    // Add the full student object to the model
+		    model.addAttribute("StudentRecord", student);
+           
+		    System.out.println("in my profile");
+		    
+		  
+		  
+		  
+		  
+	        List<ClassStudent> classes = classStudentService.getAllClasses();
+	        model.addAttribute("classesStudent", classes);
+	        return "StudentViewClasses"; // JSP page name (myClasses.jsp)
+	    }
+
+}

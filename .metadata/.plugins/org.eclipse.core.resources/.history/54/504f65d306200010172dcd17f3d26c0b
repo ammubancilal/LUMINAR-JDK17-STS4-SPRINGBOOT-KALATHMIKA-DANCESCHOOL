@@ -1,0 +1,243 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="header.jsp" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.luminar.springbootkalathmika.model.Student" %>
+<html>
+<head>
+    <title>Manage Students - Kalathmika Admin</title>
+    <style>
+     html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            flex: 1;
+        }
+    
+    ul.nav-menu {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px auto 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        ul.nav-menu li a {
+            text-decoration: none;
+            background-color: #9C27B0;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+
+        ul.nav-menu li a:hover {
+            background-color: #7B1FA2;
+        }
+        .manage-container {
+           width: fit-content; /* 👈 Automatically expands to fit table */
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            font-family: Arial, sans-serif;
+            border-radius: 10px;
+            overflow-x: auto; /* Ensures the table fits inside the container with horizontal scrolling if needed */
+        }
+
+        .manage-container h2 {
+            text-align: center;
+            color: #9C27B0;
+            margin-bottom: 30px;
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .action-bar input[type="text"] {
+            padding: 8px;
+            width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .action-bar button {
+            background-color: #9C27B0;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .action-bar button:hover {
+            background-color: #7B1FA2;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #9C27B0;
+            color: white;
+        }
+
+        td button {
+            margin: 0 5px;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .edit-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .view-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+    </style>
+ <script>
+document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.querySelector("#searchInput");
+    const studentTableBody = document.querySelector("#studentTableBody");
+
+    if (!searchInput || !studentTableBody) {
+        console.error("Missing elements: searchInput or studentTableBody not found.");
+        return;
+    }
+
+    searchInput.addEventListener("input", () => {
+        const keyword = searchInput.value.trim();
+        console.log("Keyword in JS: ", keyword);
+
+        // Only fetch if the keyword is not empty
+        if (keyword.length === 0) {
+            studentTableBody.innerHTML = ""; // Optionally clear results when empty
+            return;
+        }
+
+        // Ensure the keyword is properly encoded in the URL
+        const encodedKeyword = encodeURIComponent(keyword);
+        
+        fetch(`/admin/searchStudents?keyword=${encodedKeyword}`)
+            .then(response => response.ok ? response.text() : Promise.reject("Failed to fetch"))
+            .then(data => studentTableBody.innerHTML = data)
+            .catch(error => console.error("Error fetching students:", error));
+    });
+});
+</script>
+
+
+
+    
+</head>
+<body>
+<nav>
+    <ul class="nav-menu">
+        <li><a href="/admin/dashboard">Home</a></li>
+        <li><a href="/admin/manageStudents">Manage Students</a></li>
+        <li><a href="#">Dance Forms</a></li>
+        <li><a href="#">Track Fees</a></li>
+        <li><a href="#">Events</a></li>
+        <li><a href="#">Gallery</a></li>
+        <li><a href="#">Performances</a></li>
+    </ul>
+</nav>
+
+<div class="manage-container">
+    <h2>Manage Students</h2>
+
+    <div class="action-bar">
+        <input type="text" id="searchInput" placeholder="Search student by name...">
+        <a href="${pageContext.request.contextPath}/admin/addNewStudent">
+    <button type="button">Add New Student</button>
+</a>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+           <th>Sl.No</th>
+            <th>Name</th>
+            <th>Date Of Birth</th>
+            <th>Gender</th>
+            <th>Parent Name</th>
+            <th>Contact Number</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Date Of Join</th>
+            <th>Dance Form</th>
+            <th>Level</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody id="studentTableBody">
+        <%
+    List<Student> students = (List<Student>) request.getAttribute("students");
+    if (students != null && !students.isEmpty()) {
+        int i = 1;
+        for (Student student : students) {
+%>
+<tr>
+    <td><%= i++ %></td>
+    <td><%= student.getStu_name() %></td>
+    <td><%= student.getStu_dob() %></td>
+    <td><%= student.getStu_gender() %></td>
+    <td><%= student.getStu_parent_name()     %></td>
+    <td><%= student.getStu_contact_number() %></td>
+    <td><%= student.getStu_email() %></td>
+    <td><%= student.getStu_address() %></td>
+    <td><%= student.getStu_dateof_join()     %></td>
+    <td><%= student.getStu_dance_form()      %></td>
+    <td><%= student.getStu_level() %></td>
+    <td>
+        <button class="edit-btn" onclick="location.href='editStudent?stu_id=<%= student.getStu_id() %>'">Edit</button>
+    </td>
+    <td>
+        <button class="delete-btn" onclick="if(confirm('Are you sure?')) location.href='deleteStudent?stu_id=<%= student.getStu_id() %>'">Delete</button>
+    </td>
+</tr>
+<%
+        }
+    } else {
+%>
+<tr>
+    <td colspan="13">No students found.</td>
+</tr>
+<% } %>
+         
+        </tbody>
+    </table>
+</div>
+
+<%@ include file="footer.jsp" %>
+</body>
+</html>

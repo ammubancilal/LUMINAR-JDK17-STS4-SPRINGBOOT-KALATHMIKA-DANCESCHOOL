@@ -1,0 +1,167 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="header.jsp" %>
+<%@ page import="com.luminar.springbootkalathmika.model.TrackFee" %>
+
+<%
+    TrackFee trackFee = (TrackFee) request.getAttribute("trackFee");
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Student Monthly Fee</title>
+    <style>
+        ul.nav-menu {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px auto 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        ul.nav-menu li a {
+            text-decoration: none;
+            background-color: #9C27B0;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+
+        ul.nav-menu li a:hover {
+            background-color: #7B1FA2;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .btn-submit {
+            background-color: #9C27B0;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-submit:hover {
+            background-color: #7B1FA2;
+        }
+
+        .view-fee-btn {
+            background-color: #2196F3;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+            margin-bottom: 15px;
+        }
+
+        .view-fee-btn:hover {
+            background-color: #1976D2;
+        }
+
+    </style>
+</head>
+<body>
+
+<nav>
+    <ul class="nav-menu">
+        <li><a href="/admin/dashboard">Home</a></li>
+        <li><a href="/admin/manageStudents">Manage Students</a></li>
+        <li><a href="/admin/danceForms">Dance Forms</a></li>
+        <li><a href="/admin/trackFees">Track Fees</a></li>
+         <li><a href="/admin/classSchedule">Class Schedule</a></li>
+        <li><a href="/admin/Events">Events</a></li>
+        <li><a href="/admin/Gallery">Gallery</a></li>
+       
+    </ul>
+</nav>
+
+<br><br>
+<div class="form-container">
+    <h2>Update Student Monthly Fee</h2>
+
+    <form action="/admin/updateStudentFee" method="post">
+        <!-- Hidden fields -->
+        <input type="hidden" name="feeId" value="<%= trackFee.getFeeId() %>">
+        <input type="hidden" name="student.stuId" value="<%= trackFee.getStudent().getStuId() %>">
+
+        <div>
+            <label for="studentName">Student Name:</label>
+            <input type="text" id="studentName" value="<%= trackFee.getStudent().getStuName() %>" readonly>
+        </div>
+
+        <div>
+            <label for="feeMonth">Fee Month:</label>
+            <select id="feeMonth" name="feeMonth" required>
+                <option value="">Select</option>
+                <%
+                    String[] months = {"January","February","March","April","May","June","July","August","September","October","November","December"};
+                    String selectedMonth = trackFee.getFeeMonth();
+                    for(String month : months) {
+                %>
+                    <option value="<%= month %>" <%= month.equals(selectedMonth) ? "selected" : "" %>><%= month %></option>
+                <% } %>
+            </select>
+        </div>
+
+        <div>
+            <label for="feeYear">Fee Year:</label>
+            <input type="text" id="feeYear" name="feeYear" value="<%= trackFee.getFeeYear()  %>" required>
+        </div>
+
+        <div>
+            <label for="feeAmountpaid">Amount Paid:</label>
+            <input type="number" id="feeAmountpaid" name="feeAmountpaid" value="<%= trackFee.getFeeAmountpaid() %>" required>
+        </div>
+
+        <div>
+             <label for="feePaymentdate">Payment Date:</label>
+    <input type="date" id="feePaymentdate" name="feePaymentdate" 
+           value="<%= trackFee.getFeePaymentdate() != null ? trackFee.getFeePaymentdate() : new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>" 
+           required>
+        </div>
+
+        <div>
+            <label for="feePaymentstatus">Payment Status:</label>
+            <select id="feePaymentstatus" name="feePaymentstatus" required>
+                <option value="paid" <%= "paid".equals(trackFee.getFeePaymentstatus()) ? "selected" : "" %>>Paid</option>
+                <option value="pending" <%= "pending".equals(trackFee.getFeePaymentstatus()) ? "selected" : "" %>>Pending</option>
+                <option value="partial" <%= "partial".equals(trackFee.getFeePaymentstatus()) ? "selected" : "" %>>Partial</option>
+            </select>
+        </div>
+
+        <div>
+            <button type="submit" class="btn-submit">Update</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
+
+<%@ include file="footer.jsp" %>

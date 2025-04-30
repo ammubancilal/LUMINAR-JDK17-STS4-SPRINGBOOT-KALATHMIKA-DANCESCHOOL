@@ -1,0 +1,253 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.luminar.springbootkalathmika.model.Student" %>
+<%@ include file="header.jsp" %>
+
+<%
+    Student student = (Student) request.getAttribute("StudentRecord");
+session.setAttribute("StudentRecord", student);
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Profile</title>
+    <style>
+       /* Reset default margin and padding for html and body */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Background and gradient */
+body {
+    background: 
+        linear-gradient(to right, rgba(243,229,245,0.8), rgba(237,231,246,0.8)),
+        url('${pageContext.request.contextPath}/images/bharat.webp') no-repeat left, 
+        url('${pageContext.request.contextPath}/images/bharat.webp') no-repeat right;
+    background-size: 30%;
+    background-position: left center, right center;
+    background-attachment: fixed;
+}
+
+/* Traditional Indian Borders (Top and Bottom) */
+body::before, body::after {
+    content: "";
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: url('https://via.placeholder.com/1920x30/fff/ff6347?text=Indian+Pattern') repeat-x;
+    z-index: 1;
+}
+
+body::before {
+    top: 0;
+}
+
+body::after {
+    bottom: 0;
+}
+
+/* Navigation Styles */
+nav ul.nav-menu {
+    list-style: none;
+    padding: 0;
+    margin: 20px auto 0;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+nav ul.nav-menu li a {
+    text-decoration: none;
+    background-color: #9C27B0;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+nav ul.nav-menu li a:hover {
+    background-color: #7B1FA2;
+}
+
+/* Profile Container */
+.profile-container {
+    max-width: 700px;
+    margin: 50px auto;
+    background: #ffffff;
+    padding: 30px 40px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* Profile Heading */
+h1 {
+    text-align: center;
+    color: #6A1B9A;
+    margin-bottom: 30px;
+}
+
+/* Profile Fields */
+.profile-field {
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.profile-label {
+    font-weight: bold;
+    color: #555;
+}
+
+.profile-value {
+    margin-left: 10px;
+    color: #333;
+}
+
+/* Buttons */
+.btn-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.btn {
+    background-color: #7B1FA2;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.btn:hover {
+    background-color: #6A1B9A;
+}
+
+/* Flexbox for placing images on left and right sides */
+.bharatanatyam-gallery {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.bharatanatyam-gallery .image-left,
+.bharatanatyam-gallery .image-right {
+    width: 15%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.bharatanatyam-gallery img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+
+.bharatanatyam-gallery img:hover {
+    transform: scale(1.05);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .bharatanatyam-gallery {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: static;
+    }
+
+    .bharatanatyam-gallery .image-left,
+    .bharatanatyam-gallery .image-right {
+        width: 80%;
+        margin-bottom: 15px;
+    }
+
+    .profile-container {
+        margin: 20px;
+        padding: 20px;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+
+<nav>
+    <ul class="nav-menu">
+        <li><a href="/admin/student/dashboard">Home</a></li>
+        <li><a href="/admin/student/myProfile">My Profile</a></li>
+        <li><a href="/admin/student/myClasses">My Classes</a></li>
+        <li><a href="/admin/student/fees">Fees</a></li>
+        <li><a href="/admin/student/events">Events</a></li>
+       
+    </ul>
+</nav>
+
+<div class="profile-container">
+    <h1>My Profile</h1>
+
+    <% if (student != null) { %>
+        <div class="profile-field">
+            <span class="profile-label">Name:</span>
+            <span class="profile-value"><%= student.getStuName() %></span>
+        </div>
+        
+         <div class="profile-field">
+            <span class="profile-label">ParentName:</span>
+            <span class="profile-value"><%= student.getStuParentname() %></span>
+        </div>
+        
+        
+        
+        <div class="profile-field">
+            <span class="profile-label">Email:</span>
+            <span class="profile-value"><%= student.getStuEmail() %></span>
+        </div>
+        <div class="profile-field">
+            <span class="profile-label">Phone:</span>
+            <span class="profile-value"><%= student.getStuContactnumber() %></span>
+        </div>
+        <div class="profile-field">
+            <span class="profile-label">Address:</span>
+            <span class="profile-value"><%= student.getStuAddress() %></span>
+        </div>
+        <div class="profile-field">
+            <span class="profile-label">Date of Birth:</span>
+            <span class="profile-value"><%= student.getStuDob() %></span>
+        </div>
+        <div class="profile-field">
+            <span class="profile-label">Gender:</span>
+            <span class="profile-value"><%= student.getStuGender() %></span>
+        </div>
+        <div class="profile-field">
+            <span class="profile-label">Dance form Opted:</span>
+            <span class="profile-value"><%= student.getStuDanceform() %></span>
+        </div>
+        <div class="profile-field">
+            <span class="profile-label">Joining Date:</span>
+            <span class="profile-value"><%= student.getStuDateofJoin() %></span>
+        </div>
+
+        <div class="btn-container">
+            <a href="/student/editProfile" class="btn">Edit Profile</a>
+        </div>
+    <% } else { %>
+        <p style="text-align:center; color:red;">No student information found.</p>
+    <% } %>
+</div>
+
+</body>
+</html>
+
+<%@ include file="footer.jsp" %>

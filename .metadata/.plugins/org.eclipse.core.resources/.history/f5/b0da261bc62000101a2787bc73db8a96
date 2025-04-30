@@ -1,0 +1,42 @@
+package com.luminar.springbootkalathmika.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.luminar.springbootkalathmika.model.Dance;
+import com.luminar.springbootkalathmika.service.DanceService;
+
+@Controller
+@RequestMapping("/admin")
+public class DanceController {
+	
+	@Autowired
+    private DanceService danceService;
+	
+	 @GetMapping("/danceForms")
+	    public String showDanceForms(Model model) {
+	        List<Dance> danceForms = danceService.getAllDanceForms();
+	        System.out.println(danceForms);
+	        model.addAttribute("danceForms", danceForms);
+	        return "danceForms"; // corresponds to danceForms.jsp
+	    }
+
+	 // GET method to show the form
+	    @GetMapping("/addNewDance")
+	    public String showAddDanceForm(Model model) {
+	        model.addAttribute("dance", new Dance()); // Dance is your model class
+	        return "addNewDance"; // This should match your HTML file name (addNewDance.html)
+	    }
+	
+	
+	
+	
+
+}

@@ -1,0 +1,9 @@
+package com.luminar.springbootkalathmika.service;
+
+import com.luminar.springbootkalathmika.model.Student;
+
+public interface StudentService {
+	void saveStudent(Student student);
+    // other methods like getAllStudents(), deleteStudent(), etc.
+
+}

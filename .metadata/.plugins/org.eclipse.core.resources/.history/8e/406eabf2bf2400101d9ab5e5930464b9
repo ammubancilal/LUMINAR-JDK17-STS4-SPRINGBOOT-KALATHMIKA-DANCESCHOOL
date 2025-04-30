@@ -1,0 +1,100 @@
+package com.luminar.springbootkalathmika.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "trackfees") // Use your actual DB table name
+public class TrackFee {
+	 @Id
+	 @Column(name = "fee_id")
+	private int feeId;
+	 
+	 @Column(name = "stu_id")
+	 private int stuId;
+	 
+	 @Column(name = "fee_month")
+	 private String feeMonth;
+	 
+	 @Column(name = "fee_year")
+	 private String feeYear;
+	 
+	  @Column(name = "fee_amount_paid")
+	 private int feeAmountpaid;
+	  
+	  @Column(name = "fee_payment_date")
+	  private String feePaymentdate;
+	  
+	  @Column(name = "fee_payment_status")
+	  private String feePaymentstatus;
+	  
+	  
+	  @ManyToOne
+	  @JoinColumn(name = "stu_id") // This creates the foreign key
+	  private Student student;
+
+	public int getFeeId() {
+		return feeId;
+	}
+
+	public void setFeeId(int feeId) {
+		this.feeId = feeId;
+	}
+
+	
+	public String getFeeMonth() {
+		return feeMonth;
+	}
+
+	public void setFeeMonth(String feeMonth) {
+		this.feeMonth = feeMonth;
+	}
+
+	public String getFeeYear() {
+		return feeYear;
+	}
+
+	public void setFeeYear(String feeYear) {
+		this.feeYear = feeYear;
+	}
+
+	public int getFeeAmountpaid() {
+		return feeAmountpaid;
+	}
+
+	public void setFeeAmountpaid(int feeAmountpaid) {
+		this.feeAmountpaid = feeAmountpaid;
+	}
+
+	public String getFeePaymentdate() {
+		return feePaymentdate;
+	}
+
+	public void setFeePaymentdate(String feePaymentdate) {
+		this.feePaymentdate = feePaymentdate;
+	}
+
+	public String getFeePaymentstatus() {
+		return feePaymentstatus;
+	}
+
+	public void setFeePaymentstatus(String feePaymentstatus) {
+		this.feePaymentstatus = feePaymentstatus;
+	}
+	
+	  public Student getStudent() {
+	        return student;
+	    }
+
+	    public void setStudent(Student student) {
+	        this.student = student;
+	    }
+	
+	
+	
+
+}

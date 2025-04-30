@@ -1,0 +1,28 @@
+package com.luminar.springbootkalathmika.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.luminar.springbootkalathmika.service.DanceService;
+
+@Controller
+@RequestMapping("/admin")
+public class DanceController {
+	
+	@Autowired
+    private DanceService danceService;
+	
+	 @GetMapping("/danceForms")
+	    public String showDanceForms(Model model) {
+	        List<DanceForm> danceForms = danceFormService.getAllDanceForms();
+	        model.addAttribute("danceForms", danceForms);
+	        return "danceForms"; // corresponds to danceForms.jsp
+	    }
+
+	
+	
+	
+	
+
+}

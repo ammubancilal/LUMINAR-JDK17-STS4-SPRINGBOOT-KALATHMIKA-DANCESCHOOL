@@ -1,0 +1,84 @@
+package com.luminar.springbootkalathmika.controller;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.luminar.springbootkalathmika.model.User;
+import com.luminar.springbootkalathmika.service.UserService;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class LoginController {
+
+	
+	@Autowired
+    private UserService userService;
+	
+	@GetMapping("/")
+    public String index() {
+        return "index"; // Looks for index.jsp
+    }
+	
+	
+	@GetMapping("/index")
+    public String indexBack() {
+        return "index"; // Looks for index.jsp
+    }
+	
+	
+	@PostMapping("/login")
+    public String login(@RequestParam String username,
+                        @RequestParam String password,
+                        Model model) {
+		
+		System.out.println("Inside student login");
+        Optional<User> optionalUser = userService.authenticate(username, password);
+        
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            String role = user.getUserRole(); // Assuming you have a `role` field in your User model
+        
+            
+            // ⭐ Save logged-in username to session
+            session.setAttribute("loggedInUsername", username); 
+            session.setAttribute("loggedInPassword", password);
+            switch (role.toLowerCase()) {
+                case "admin":
+                    return "redirect:/admin/dashboard";
+                case "student":
+                	 return "redirect:/student/dashboard";
+                case "teacher":
+                    return "redirect:/teacher/portal";
+                default:
+                    model.addAttribute("error", "Unknown role");
+                    return "login"; // go back to login page
+            }
+        } else {
+            model.addAttribute("error", "Invalid username or password");
+            return "login"; // go back to login page
+        }
+    }
+	
+	
+	 @GetMapping("/student/dashboard")
+	    public String dashboard( Model model) {
+	        // You can add logic here to fetch additional student-specific data
+	        
+
+	        // Forwarding to studentDashboard.jsp
+	        return "studentDashboard";  // This refers to the studentDashboard.jsp view
+	    }
+	
+	
+	
+	
+	
+	
+}

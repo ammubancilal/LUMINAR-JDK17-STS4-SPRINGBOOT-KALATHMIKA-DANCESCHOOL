@@ -1,0 +1,144 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="header.jsp" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New Student</title>
+    <style>
+     ul.nav-menu {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px auto 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        ul.nav-menu li a {
+            text-decoration: none;
+            background-color: #9C27B0;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+
+        ul.nav-menu li a:hover {
+            background-color: #7B1FA2;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            padding: 30px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #9C27B0;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .btn-submit {
+            background-color: #9C27B0;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-submit:hover {
+            background-color: #7B1FA2;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <ul class="nav-menu">
+    <li><a href="/admin/dashboard">Home</a></li>
+        <li><a href="/manageStudents">Manage Students</a></li>
+        <li><a href="#">Dance Forms</a></li>
+        <li><a href="#">Track Fees</a></li>
+        <li><a href="#">Events</a></li>
+        <li><a href="#">Gallery</a></li>
+        <li><a href="#">Performances</a></li>
+    </ul>
+</nav>
+
+<div class="form-container">
+    <h2>Add New Student</h2>
+    <form action="${pageContext.request.contextPath}/addStudent" method="post">
+        <label for="stu_name">Full Name</label>
+        <input type="text" id="stu_name" name="stu_name" required>
+
+        <label for="stu_dob">Date of Birth</label>
+        <input type="date" id="stu_dob" name="stu_dob" required>
+
+        <label for="stu_gender">Gender</label>
+        <select id="stu_gender" name="stu_gender" required>
+            <option value="">Select</option>
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <label for="stu_parentName">Parent/Guardian Name</label>
+        <input type="text" id="stu_parentName" name="stu_parentName" required>
+
+        <label for="stu_contactNumber">Contact Number</label>
+        <input type="text" id="stu_contactNumber" name="stu_contactNumber" required>
+
+        <label for="stu_email">Email</label>
+        <input type="email" id="stu_email" name="stu_email" required>
+
+        <label for="stu_address">Address</label>
+        <textarea id="stu_address" name="stu_address" rows="3" required></textarea>
+
+        <label for="stu_dateOfjoin">Date of Joining</label>
+        <input type="date" id="stu_dateOfjoin" name="stu_dateOfjoin" required>
+
+        <label for="stu_danceForm">Dance Form</label>
+        <select id="stu_danceForm" name="stu_danceForm" required>
+            <option value="">Select</option>
+            <option value="Bharatanatyam">Bharatanatyam</option>
+            <option value="Kuchipudi">Kuchipudi</option>
+            <option value="Mohiniyattam">Mohiniyattam</option>
+        </select>
+
+        <label for="stu_level">Level</label>
+        <select id="stu_level" name="stu_level" required>
+            <option value="">Select</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+        </select>
+
+        <button type="submit" class="btn-submit">Add Student</button>
+    </form>
+</div>
+
+</body>
+</html>
+<%@ include file="footer.jsp" %>

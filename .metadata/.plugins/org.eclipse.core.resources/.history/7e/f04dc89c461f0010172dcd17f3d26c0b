@@ -1,0 +1,12 @@
+package com.luminar.springbootkalathmika.repository;
+
+import com.luminar.springbootkalathmika.model.Student;
+
+public class StudentRepository {
+
+	public void save(Student student) {
+		
+		
+	}
+
+}

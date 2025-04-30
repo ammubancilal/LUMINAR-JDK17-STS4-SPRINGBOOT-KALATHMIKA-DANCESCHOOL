@@ -1,0 +1,239 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="header.jsp" %>
+<%@ page import="com.luminar.springbootkalathmika.model.Student"%>
+
+<%
+    Student student  = (Student)request.getAttribute("StudentRecord");
+session.setAttribute("StudentId", student.getStuId());
+%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet"> <!-- Indian touch font -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background: 
+                linear-gradient(to right, rgba(243,229,245,0.8), rgba(237,231,246,0.8)),
+                url('${pageContext.request.contextPath}/images/bharat.webp') no-repeat left, 
+                url('${pageContext.request.contextPath}/images/bharat.webp') no-repeat right;
+            background-size: 30%; /* Adjust the background size as needed */
+            background-position: left center, right center; /* Aligns image to both the left and right */
+            background-attachment: fixed; /* Keeps the image fixed while scrolling */
+        }
+
+        /* Traditional Indian Borders (Top and Bottom) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            background: url('https://via.placeholder.com/1920x30/fff/ff6347?text=Indian+Pattern') repeat-x;
+            z-index: 1;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            background: url('https://via.placeholder.com/1920x30/fff/ff6347?text=Indian+Pattern') repeat-x;
+            z-index: 1;
+        }
+
+        /* Floating Effect for Background Image */
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px); /* Moves up */
+            }
+            100% {
+                transform: translateY(0); /* Comes back down */
+            }
+        }
+
+        nav, .dashboard-container {
+            position: relative;
+            z-index: 2;
+        }
+
+        ul.nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 20px auto 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        ul.nav-menu li a {
+            text-decoration: none;
+            background-color: #9C27B0;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        ul.nav-menu li a:hover {
+            background-color: #7B1FA2;
+        }
+
+        .dashboard-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            background: rgba(255,255,255,0.9);
+            padding: 40px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .dashboard-title {
+            font-family: 'Marcellus', serif; /* Indian style font */
+            font-size: 32px;
+            color: #7B1FA2;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-section {
+            margin: 40px 0;
+        }
+
+        .dashboard-section h3 {
+            font-family: 'Marcellus', serif;
+            color: #9C27B0;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .btn {
+            background-color: #9C27B0;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin: 10px;
+            display: inline-block;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: #7B1FA2;
+        }
+
+        /* Flexbox for placing images on left and right sides */
+        .bharatanatyam-gallery {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+        }
+
+        .bharatanatyam-gallery .image-left,
+        .bharatanatyam-gallery .image-right {
+            width: 15%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .bharatanatyam-gallery img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 12px;
+            object-fit: cover;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .bharatanatyam-gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .bharatanatyam-gallery {
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                position: static;
+                margin-top: 30px;
+            }
+
+            .bharatanatyam-gallery .image-left,
+            .bharatanatyam-gallery .image-right {
+                width: 80%;
+                margin-bottom: 15px;
+            }
+
+            .dashboard-container {
+                margin: 20px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <ul class="nav-menu">
+        <li><a href="/student/dashboard">Home</a></li>
+        <li><a href="/student/myProfile">My Profile</a></li>
+        <li><a href="/student/myClasses">My Classes</a></li>
+        <li><a href="/student/fees">Fees</a></li>
+        <li><a href="/student/events">Events</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+</nav>
+
+<div class="dashboard-container">
+    <h1 class="dashboard-title">Welcome, <%=student.getStuName() %></h1>
+
+    <div class="dashboard-section">
+        <h3>My Classes</h3>
+        <p>View your class schedules, dance forms, and timings.</p>
+        <a href="/student/myClasses" class="btn">View Classes</a>
+    </div>
+
+    <div class="dashboard-section">
+        <h3>Fees</h3>
+        <p>Track your fee payments and dues.</p>
+        <a href="/student/fees" class="btn">Track Fees</a>
+    </div>
+
+    <div class="dashboard-section">
+        <h3>Upcoming Events</h3>
+        <p>Check upcoming performances and competitions.</p>
+        <a href="/student/events" class="btn">View Events</a>
+    </div>
+
+    <div class="dashboard-section">
+        <h3>My Profile</h3>
+        <p>Update your personal details and change password.</p>
+        <a href="/student/myProfile" class="btn">View Profile</a>
+    </div>
+
+</div>
+
+</body>
+</html>
+<%@ include file="footer.jsp" %>

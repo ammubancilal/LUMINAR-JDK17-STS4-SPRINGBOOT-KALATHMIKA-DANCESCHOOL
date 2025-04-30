@@ -1,0 +1,95 @@
+package com.luminar.springbootkalathmika.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.luminar.springbootkalathmika.model.Member;
+import com.luminar.springbootkalathmika.model.Student;
+import com.luminar.springbootkalathmika.model.User;
+import com.luminar.springbootkalathmika.repository.MemberRepository;
+import com.luminar.springbootkalathmika.repository.StudentRepository;
+import com.luminar.springbootkalathmika.repository.UserRepository;
+
+@Service
+public class StudentServiceImpl  implements StudentService{
+
+	
+	 @Autowired
+	    private MemberRepository memberRepository;
+
+	    @Autowired
+	    private UserRepository userRepository;
+
+	    @Autowired
+	    private StudentRepository studentRepository;
+	
+	    public void saveStudent(Member member, User user, Student student) {
+	        // 1️⃣ Save Member first
+	        Member savedMember = memberRepository.save(member);
+
+	        // 2️⃣ Set the memId in User and Student
+	        user.setMemId(savedMember.getMemId());
+	        student.setMemId(savedMember.getMemId());
+
+	        // 3️⃣ Save User and Student
+	        userRepository.save(user);
+	        studentRepository.save(student);
+	    }
+    
+    public List<Student> getAllStudents() {
+        return studentRepository.findAll(); // JPA or DAO call
+    }
+
+    @Override
+    public List<Student> findByNameContainingIgnoreCase(String keyword) {
+    	
+    	 return studentRepository.findByStuNameContainingIgnoreCase(keyword);
+    }
+
+	@Override
+	public Student getStudentById(int id) {
+		 return studentRepository.findById(id)
+		            .orElseThrow(() -> new RuntimeException("Student not found with ID: " + id));
+	}
+
+	@Override
+	public void updateStudent(Student student) {
+	    // Optional: Check if the student exists before updating
+	    Optional<Student> existingStudentOpt = studentRepository.findById(student.getStuId());
+	    if (existingStudentOpt.isPresent()) {
+	        Student existingStudent = existingStudentOpt.get();
+
+	        // Update fields
+	        existingStudent.setStuName(student.getStuName());
+	        existingStudent.setStuDob(student.getStuDob());
+	        existingStudent.setStuGender(student.getStuGender());
+	        existingStudent.setStuParentname(student.getStuParentname());
+	        existingStudent.setStuContactnumber(student.getStuContactnumber());
+	        existingStudent.setStuEmail(student.getStuEmail());
+	        existingStudent.setStuAddress(student.getStuAddress());
+	        existingStudent.setStuDateofJoin(student.getStuDateofJoin());
+	        existingStudent.setStuDanceform(student.getStuDanceform());
+	        existingStudent.setStuLevel(student.getStuLevel());
+
+	        // Save updated student
+	        studentRepository.save(existingStudent);
+	    } else {
+	        // Optional: Handle case when student ID doesn't exist
+	        throw new RuntimeException("Student not found with ID: " + student.getStuId());
+	    }
+	}
+
+	@Override
+	public void deleteStudentById(int id) {
+	    if (studentRepository.existsById(id)) {
+	        studentRepository.deleteById(id);
+	    } else {
+	        throw new RuntimeException("Student not found with ID: " + id);
+	    }
+	}
+
+
+}

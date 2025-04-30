@@ -1,0 +1,114 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="header.jsp" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.luminar.springbootkalathmika.model.Dance" %>
+
+<%
+    List<Dance> danceForms = (List<DanceForm>) request.getAttribute("danceForms");
+%>
+
+<html>
+<head>
+    <title>Dance Forms</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #9C27B0;
+            color: white;
+        }
+
+        .btn {
+            background-color: #9C27B0;
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #7B1FA2;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Dance Forms</h2>
+
+    <form action="${pageContext.request.contextPath}/admin/addDanceForm" method="post">
+        <div class="form-group">
+            <label for="danceFormName">New Dance Form:</label>
+            <input type="text" id="danceFormName" name="name" required>
+        </div>
+        <button type="submit" class="btn">Add Dance Form</button>
+    </form>
+
+    <br><br>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Dance Form Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (Dance form : danceForms) { %>
+                <tr>
+                    <td><%= form.getId() %></td>
+                    <td><%= form.getName() %></td>
+                    <td>
+                        <form action="${pageContext.request.contextPath}/admin/deleteDanceForm" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="<%= form.getId() %>">
+                            <button type="submit" class="btn" style="background-color: red;">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
+
+<%@ include file="footer.jsp" %>

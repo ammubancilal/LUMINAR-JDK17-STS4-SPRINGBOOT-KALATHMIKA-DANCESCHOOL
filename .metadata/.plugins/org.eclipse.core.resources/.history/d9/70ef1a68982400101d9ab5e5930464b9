@@ -1,0 +1,20 @@
+package com.luminar.springbootkalathmika.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.luminar.springbootkalathmika.model.ClassStudent;
+import com.luminar.springbootkalathmika.repository.ClassStudentRepository;
+
+public class ClassStudentServiceImpl implements ClassStudentService{
+
+	@Autowired
+    private ClassStudentRepository classStudentRepository;
+
+    @Override
+    public List<ClassStudent> getAllClasses() {
+        return classStudentRepository.findAll();
+    }
+
+}

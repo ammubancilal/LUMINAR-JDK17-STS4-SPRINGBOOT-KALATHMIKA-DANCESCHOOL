@@ -1,0 +1,165 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="header.jsp" %>
+<%@ page import="com.luminar.springbootkalathmika.model.Student" %>
+<!DOCTYPE html>
+
+<%
+    Student student = (Student) request.getAttribute("student");
+%>
+<html>
+<head>
+    <title>Add New Student</title>
+    <style>
+     ul.nav-menu {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px auto 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        ul.nav-menu li a {
+            text-decoration: none;
+            background-color: #9C27B0;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+
+        ul.nav-menu li a:hover {
+            background-color: #7B1FA2;
+        }
+        /* body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            padding: 30px;
+        }
+ */
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .btn-submit {
+            background-color: #9C27B0;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-submit:hover {
+            background-color: #7B1FA2;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <ul class="nav-menu">
+    <li><a href="/admin/dashboard">Home</a></li>
+        <li><a href="/admin/manageStudents">Manage Students</a></li>
+        <li><a href="/admin/danceForms">Dance Forms</a></li>
+        <li><a href="/admin/trackFees">Track Fees</a></li>
+        <li><a href="/admin/Events">Events</a></li>
+        <li><a href="/admin/Gallery">Gallery</a></li>
+        <li><a href="/admin/Performances">Performances</a></li>
+    </ul>
+</nav>
+<br><br>
+<div class="form-container">
+    <h2>Add Student Monthly Fee</h2>
+     <!-- Fee Entry Form -->
+    <form action="/submitStudentFee" method="post">
+        <!-- Student ID -->
+        <div>
+            <label for="studentId">Student ID:</label>
+            <input type="text" id="studentId" name="studentId" value="<%= student.getStu_id() %>" required>
+        </div>
+
+         <div>
+            <label for="studentName">Student Name:</label>
+            <input type="text" id="studentName" name="studentName" value="<%= student.getStu_name() %>" required>
+        </div>
+        
+
+
+        <!-- Fee Month -->
+        <div>
+            <label for="feeMonth">Fee Month:</label>
+          <select id="feeMonth" name="feeMonth" required>
+    <option value="January">January</option>
+    <option value="February">February</option>
+    <option value="March">March</option>
+    <option value="April">April</option>
+    <option value="May">May</option>
+    <option value="June">June</option>
+    <option value="July">July</option>
+    <option value="August">August</option>
+    <option value="September">September</option>
+    <option value="October">October</option>
+    <option value="November">November</option>
+    <option value="December">December</option>
+</select>
+        </div>
+
+        <!-- Fee Year -->
+        <div>
+            <label for="feeYear">Fee Year:</label>
+            <input type="text" id="feeYear" name="feeYear" required>
+        </div>
+
+        <!-- Fee Amount Paid -->
+        <div>
+            <label for="feeAmountPaid">Amount Paid:</label>
+            <input type="number" id="feeAmountPaid" name="feeAmountPaid" required>
+        </div>
+
+        <!-- Fee Payment Date -->
+        <div>
+            <label for="feePaymentDate">Payment Date:</label>
+            <input type="date" id="feePaymentDate" name="feePaymentDate" required>
+        </div>
+
+        <!-- Fee Payment Status -->
+        <div>
+            <label for="feePaymentStatus">Payment Status:</label>
+            <select id="feePaymentStatus" name="feePaymentStatus" required>
+                <option value="paid">Paid</option>
+                <option value="pending">Pending</option>
+                <option value="partial">Partial</option>
+            </select>
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+            <button type="submit">Submit Fee</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
+<%@ include file="footer.jsp" %>

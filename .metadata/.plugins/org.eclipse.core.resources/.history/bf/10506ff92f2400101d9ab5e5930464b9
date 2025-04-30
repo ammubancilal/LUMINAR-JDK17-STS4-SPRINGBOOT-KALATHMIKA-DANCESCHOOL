@@ -1,0 +1,120 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.luminar.springbootkalathmika.model.Student" %>
+<%@ include file="header.jsp" %>
+
+<%
+    Student student = (Student) request.getAttribute("StudentRecord");
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Profile</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f0f0f0;
+        }
+        .profile-container {
+            max-width: 700px;
+            margin: 50px auto;
+            background: #ffffff;
+            padding: 30px 40px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+            color: #6A1B9A;
+            margin-bottom: 30px;
+        }
+        .profile-field {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .profile-label {
+            font-weight: bold;
+            color: #555;
+        }
+        .profile-value {
+            margin-left: 10px;
+            color: #333;
+        }
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .btn {
+            background-color: #7B1FA2;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #6A1B9A;
+        }
+    </style>
+</head>
+<body>
+
+<div class="profile-container">
+    <h1>My Profile</h1>
+
+    <% if (student != null) { %>
+        <div class="profile-field">
+            <span class="profile-label">Name:</span>
+            <span class="profile-value"><%= student.getStuName() %></span>
+        </div>
+        
+         <div class="profile-field">
+            <span class="profile-label">ParentName:</span>
+            <span class="profile-value"><%= student.getStuParentname() %></span>
+        </div>
+        
+        
+        
+        <div class="profile-field">
+            <span class="profile-label">Email:</span>
+            <span class="profile-value"><%= student.getStuEmail() %></span>
+        </div>
+        <div class="profile-field">
+            <span class="profile-label">Phone:</span>
+            <span class="profile-value"><%= student.getStuContactnumber() %></span>
+        </div>
+        <div class="profile-field">
+            <span class="profile-label">Address:</span>
+            <span class="profile-value"><%= student.getStuAddress() %></span>
+        </div>
+        <div class="profile-field">
+            <span class="profile-label">Date of Birth:</span>
+            <span class="profile-value"><%= student.getStuDob() %></span>
+        </div>
+        <div class="profile-field">
+            <span class="profile-label">Gender:</span>
+            <span class="profile-value"><%= student.getStuGender() %></span>
+        </div>
+        <div class="profile-field">
+            <span class="profile-label">Dance form Opted:</span>
+            <span class="profile-value"><%= student.getStuDanceform() %></span>
+        </div>
+        <div class="profile-field">
+            <span class="profile-label">Joining Date:</span>
+            <span class="profile-value"><%= student.getStuDateofJoin() %></span>
+        </div>
+
+        <div class="btn-container">
+            <a href="/student/editProfile" class="btn">Edit Profile</a>
+        </div>
+    <% } else { %>
+        <p style="text-align:center; color:red;">No student information found.</p>
+    <% } %>
+</div>
+
+</body>
+</html>
+
+<%@ include file="footer.jsp" %>

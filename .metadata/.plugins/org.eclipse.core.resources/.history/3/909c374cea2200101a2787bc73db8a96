@@ -1,0 +1,36 @@
+package com.luminar.springbootkalathmika.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "members") // Use your actual DB table name
+public class Member {
+	
+	@Id
+	@Column(name = "mem_id")
+	private int memId;
+	
+	@Column(name = "mem_firstName")
+	private String memFirstname;
+	
+	@Column(name = "mem_lastName")
+	private String memLastame;
+	
+	@Column(name = "mem_address")
+	private String memAddress;
+	
+	@Column(name = "mem_phoneNumber")
+	private String memPhonenumber;
+	
+	@Column(name = "mem_emailId")
+	private String memEmailid;
+	
+	@Column(name = "mem_id")
+	private String memGender;
+	
+	
+
+}

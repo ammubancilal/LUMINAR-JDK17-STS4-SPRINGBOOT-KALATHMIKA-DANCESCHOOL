@@ -1,0 +1,30 @@
+<%@ page import="java.util.List" %>
+<%@ page import="com.luminar.springbootkalathmika.model.Student" %>
+
+<%
+    List<Student> students = (List<Student>) request.getAttribute("students");
+    int index = 1;
+    if (students != null) {
+        for (Student student : students) {
+%>
+    <tr>
+        <td><%= index++ %></td>
+        <td><%= student.getStuName() %></td>
+        <td><%= student.getStuDob() %></td>
+        <td><%= student.getStuGender() %></td>
+        <td><%= student.getStuParentName() %></td>
+        <td><%= student.getStuContactNumber() %></td>
+        <td><%= student.getStuEmail() %></td>
+        <td><%= student.getStuAddress() %></td>
+        <td><%= student.getStuDateofJoin() %></td>
+        <td><%= student.getStuDanceForm() %></td>
+        <td><%= student.getStuLevel() %></td>
+        <td>
+            <a href="editStudent?id=<%= student.getStuId() %>">Edit</a> |
+            <a href="deleteStudent?id=<%= student.getStuId() %>">Delete</a>
+        </td>
+    </tr>
+<%
+        }
+    }
+%>

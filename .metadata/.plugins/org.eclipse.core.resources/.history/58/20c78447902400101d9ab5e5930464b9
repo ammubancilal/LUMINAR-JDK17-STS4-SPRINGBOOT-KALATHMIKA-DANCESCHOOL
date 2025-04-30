@@ -1,0 +1,5 @@
+package com.luminar.springbootkalathmika.controller;
+
+public class ClassStudentController {
+
+}

@@ -1,0 +1,32 @@
+package com.luminar.springbootkalathmika.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.luminar.springbootkalathmika.model.TrackFee;
+import com.luminar.springbootkalathmika.repository.TrackFeeRepository;
+
+@Service
+public class TrackFeeServiceImpl implements TrackFeeService {
+
+    @Autowired
+    private TrackFeeRepository trackFeeRepository;
+
+    @Override
+    public List<TrackFee> getAllTrackFees() {
+        return trackFeeRepository.findAll(); // This will retrieve all fees
+    }
+
+    // Save a TrackFee (called from the controller when the fee is submitted)
+    @Override
+    public void saveTrackFee(TrackFee trackFee) {
+        trackFeeRepository.save(trackFee);  // This will save the TrackFee object to the database
+    }
+
+	@Override
+	public boolean feeRecordExists(int stu_id, String feeMonth, String feeYear) {
+		 return trackFeeRepository.existsByStudent_Stu_idAndFeeMonthAndFeeYear(stu_id, feeMonth, feeYear);
+	}
+}

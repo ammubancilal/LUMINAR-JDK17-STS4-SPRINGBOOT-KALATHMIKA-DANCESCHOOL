@@ -1,0 +1,46 @@
+package com.luminar.springbootkalathmika.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.luminar.springbootkalathmika.model.Event;
+import com.luminar.springbootkalathmika.service.EventService;
+
+@Controller
+@RequestMapping("/admin")
+public class EventController {
+	
+	
+	@Autowired
+    private EventService eventService;
+
+    // ✅ Map the /admin/Events to events.jsp
+    @GetMapping("/Events")
+    public String showEventsPage(Model model) {
+        List<Event> events = eventService.getAllEvents(); // Fetch all events
+        model.addAttribute("events", events);             // Pass list to JSP
+        return "events";  // => loads events.jsp
+    }
+    
+    
+    
+    @GetMapping("/addNewEvent")
+    public String addNewEventForm() {
+        return "addNewEvent"; // returns addNewEvent.jsp
+    }
+    
+    @PostMapping("/saveEvent")
+    public String saveEvent(@ModelAttribute Event event) {
+        eventService.saveEvent(event); // Save the event using the service
+        return "redirect:/admin/Events"; // Redirect back to events listing page
+    }
+    
+
+}

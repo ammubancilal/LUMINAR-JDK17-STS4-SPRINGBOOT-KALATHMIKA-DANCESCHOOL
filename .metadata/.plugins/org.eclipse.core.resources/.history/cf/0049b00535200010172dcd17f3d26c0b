@@ -1,0 +1,14 @@
+package com.luminar.springbootkalathmika.service;
+
+import java.util.List;
+
+import com.luminar.springbootkalathmika.model.Student;
+
+public interface StudentService {
+	void saveStudent(Student student);
+    // other methods like getAllStudents(), deleteStudent(), etc.
+	public List<Student> getAllStudents() ;
+	List<Student> findByNameContainingIgnoreCase(String keyword);
+	Student getStudentById(int id);
+
+}

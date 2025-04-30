@@ -1,0 +1,18 @@
+package com.luminar.springbootkalathmika.model;
+
+public class Student {
+	
+	private int stu_id;
+	private String stu_name;
+	private String stu_dob;
+	private String stu_gender;
+	private String stu_parentName;
+	private String stu_contactNumber;
+	private String stu_email;
+	private String stu_address;
+	private String stu_dateOfjoin;
+	private String stu_danceForm;
+	private String stu_level;
+	
+
+}

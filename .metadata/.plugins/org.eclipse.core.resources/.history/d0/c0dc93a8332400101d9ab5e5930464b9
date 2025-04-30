@@ -1,0 +1,38 @@
+package com.luminar.springbootkalathmika.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class ErrorController {
+	
+	// Method to handle all errors
+    @RequestMapping("/error")
+    public String handleError(Model model, Exception e) {
+        // Add error details to the model to display in the view
+        model.addAttribute("errorMessage", e != null ? e.getMessage() : "Unknown error occurred");
+        model.addAttribute("errorCode", "500");
+        
+        return "errorPage"; // Return the name of your custom error page (errorPage.jsp)
+    }
+
+    // Optional: Handle specific HTTP errors like 404 (Page Not Found)
+    @RequestMapping("/404")
+    public String handle404(Model model) {
+        model.addAttribute("errorMessage", "Page not found!");
+        model.addAttribute("errorCode", "404");
+        return "errorPage"; // Return your custom error page
+    }
+
+    // Handle exception for specific cases
+    @ExceptionHandler(Exception.class)
+    public String handleException(Exception ex, Model model) {
+        model.addAttribute("errorMessage", ex.getMessage());
+        model.addAttribute("errorCode", "500");
+        return "errorPage"; // Return errorPage.jsp
+    }
+	
+
+}

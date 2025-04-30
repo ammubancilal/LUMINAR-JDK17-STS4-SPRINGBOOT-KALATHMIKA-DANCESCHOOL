@@ -1,0 +1,158 @@
+package com.luminar.springbootkalathmika.controller;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.luminar.springbootkalathmika.model.ClassStudent;
+import com.luminar.springbootkalathmika.model.Student;
+import com.luminar.springbootkalathmika.repository.ClassStudentRepository;
+import com.luminar.springbootkalathmika.service.ClassStudentService;
+import com.luminar.springbootkalathmika.service.StudentService;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class ClassStudentController {
+	
+	@Autowired
+    private ClassStudentService classStudentService;
+	
+	@Autowired
+    private ClassStudentRepository classStudentRepository;
+	
+	
+	@Autowired
+    private StudentService studentService;
+	
+	  @GetMapping("/admin/student/myClasses")
+	    public String viewMyClasses(HttpSession session,Model model) {
+		  Integer studentId = (Integer) session.getAttribute("StudentId");
+		    System.out.println("studentId is"+studentId);
+
+		    if (studentId == null) {
+		        model.addAttribute("errorMessage", "Student not found!");
+		        return "studentLogin";
+		    }
+
+		    // Fetch the full student object based on studentId
+		    Student student = studentService.getStudentById(studentId);
+
+		    if (student == null) {
+		        model.addAttribute("errorMessage", "Student not found!");
+		        return "errorPage"; // Show error page if student is not found
+		    }
+
+		    // Add the full student object to the model
+		    model.addAttribute("StudentRecord", student);
+           
+		    
+		    
+		  
+		  
+		  
+		  
+	        List<ClassStudent> classes = classStudentService.getAllClasses();
+	        model.addAttribute("classesStudent", classes);
+	        return "StudentViewClasses"; // JSP page name (myClasses.jsp)
+	    }
+	  
+	  @GetMapping("/admin/classSchedule")
+	  public String viewClassSchedule(Model model) {
+		  List<ClassStudent> classes = classStudentService.getAllClasses();
+	        model.addAttribute("classSchedule", classes);
+
+	      return "classSchedule"; // This should match your JSP or Thymeleaf page name (classSchedule.jsp or classSchedule.html)
+	  }
+	  
+	  @GetMapping("/admin/addClassSchedule")
+	  public String showAddClassScheduleForm(Model model) {
+	      // If you need to pass an empty object to the form
+	      
+	      
+	      return "addClassSchedule"; // This should match your JSP page name (like addClassSchedule.jsp)
+	  }
+	  
+	  @PostMapping("/admin/saveClass")
+	  public String saveClass(@ModelAttribute ClassStudent classSchedule) {
+	      // Save the class schedule object using your service or repository
+		  classStudentRepository.save(classSchedule);
+
+	      // After saving, redirect to class schedule list or success page
+	      return "redirect:/admin/classSchedule";
+	  }
+	  
+	  
+	  @GetMapping("/admin/editClass")
+	  public String editClass(@RequestParam("classId") int classId, Model model) {
+	      // Fetch the class schedule by ID
+		 
+	      Optional<ClassStudent> classScheduleOpt = classStudentRepository.findById(classId);
+
+	      if (classScheduleOpt.isPresent()) {
+	    	 
+	          ClassStudent classSchedule = classScheduleOpt.get();
+	          model.addAttribute("classSchedule", classSchedule);
+	          return "editClass"; // Return the JSP page to edit the class
+	      } else {
+	          return "redirect:/admin/classSchedule"; // If not found, redirect back
+	      }
+	  }
+
+	// ========== POST mapping for updateClass ==========
+	    @PostMapping("/admin/updateClass")
+	    public String updateClass(@ModelAttribute ClassStudent classStudent) {
+	        // Save the updated class details
+	        classStudentRepository.save(classStudent);
+
+	        // After saving, redirect to class schedule page
+	        return "redirect:/admin/classSchedule";
+	    }
+      
+	    
+	 // ========== GET mapping for deleteClass ==========
+	    @GetMapping("/admin/deleteClass")
+	    public String deleteClass(@RequestParam("classId") int classId) {
+	        // Delete the class by ID
+	        classStudentRepository.deleteById(classId);
+
+	        // After deletion, redirect to class schedule page
+	        return "redirect:/admin/classSchedule";
+	    }
+	    
+	    @GetMapping("/admin/loadAllClasses")
+		public String loadAllStudents(Model model) {
+			List<ClassStudent> classes = classStudentService.getAllClasses();
+			model.addAttribute("classSchedule", classes);
+			return "classRows"; // returns  only the tbody  rows
+		}
+	    
+	    
+	    @GetMapping("/searchStudents")
+		 public String searchStudents(@RequestParam("keyword") String keyword, Model model) {
+		     // Check what we received in the controller
+		     System.out.println("Received search keyword: [" + keyword + "]");
+
+		     // If the keyword is not empty, search the database
+		     if (keyword != null && !keyword.trim().isEmpty()) {
+		         // Perform the search, for example:
+		         List<Student> students = studentService.findByNameContainingIgnoreCase(keyword.trim());
+		         model.addAttribute("students", students);
+		     } else {
+		         System.out.println("No valid search keyword provided.");
+		     }
+
+		     return "studentRows";  // Replace with your actual view name
+		 }
+		 
+	  
+	  
+
+}

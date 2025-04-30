@@ -1,0 +1,70 @@
+package com.luminar.springbootkalathmika.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.luminar.springbootkalathmika.model.ClassStudent;
+import com.luminar.springbootkalathmika.model.Student;
+import com.luminar.springbootkalathmika.service.ClassStudentService;
+import com.luminar.springbootkalathmika.service.StudentService;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class ClassStudentController {
+	
+	@Autowired
+    private ClassStudentService classStudentService;
+	
+	@Autowired
+    private StudentService studentService;
+	
+	  @GetMapping("/admin/student/myClasses")
+	    public String viewMyClasses(HttpSession session,Model model) {
+		  Integer studentId = (Integer) session.getAttribute("StudentId");
+		    System.out.println("studentId is"+studentId);
+
+		    if (studentId == null) {
+		        model.addAttribute("errorMessage", "Student not found!");
+		        return "studentLogin";
+		    }
+
+		    // Fetch the full student object based on studentId
+		    Student student = studentService.getStudentById(studentId);
+
+		    if (student == null) {
+		        model.addAttribute("errorMessage", "Student not found!");
+		        return "errorPage"; // Show error page if student is not found
+		    }
+
+		    // Add the full student object to the model
+		    model.addAttribute("StudentRecord", student);
+           
+		    
+		    
+		  
+		  
+		  
+		  
+	        List<ClassStudent> classes = classStudentService.getAllClasses();
+	        model.addAttribute("classesStudent", classes);
+	        return "StudentViewClasses"; // JSP page name (myClasses.jsp)
+	    }
+	  
+	  @GetMapping("/admin/classSchedule")
+	  public String viewClassSchedule(Model model) {
+	      // You can fetch class schedule data here if needed
+	      // Example:
+	      // List<ClassSchedule> schedules = classScheduleService.getAllSchedules();
+	      // model.addAttribute("schedules", schedules);
+
+	      return "classSchedule"; // This should match your JSP or Thymeleaf page name (classSchedule.jsp or classSchedule.html)
+	  }
+	  
+	  
+
+}

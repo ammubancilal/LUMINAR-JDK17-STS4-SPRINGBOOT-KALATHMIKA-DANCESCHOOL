@@ -1,0 +1,10 @@
+package com.luminar.springbootkalathmika.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.luminar.springbootkalathmika.model.Dance;
+
+
+public interface DanceRepository extends JpaRepository<Dance, Integer>{
+
+}

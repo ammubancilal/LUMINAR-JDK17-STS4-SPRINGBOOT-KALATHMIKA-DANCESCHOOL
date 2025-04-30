@@ -1,0 +1,63 @@
+<%@ page import="java.util.List" %>
+<%@ page import="com.luminar.springbootkalathmika.model.ClassStudent" %>
+<html>
+<head>
+<style>
+    td button {
+        margin: 0 5px;
+        padding: 6px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .edit-btn {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .delete-btn {
+        background-color: #f44336;
+        color: white;
+    }
+</style>
+</head>
+
+<%
+    List<ClassStudent> classes = (List<ClassStudent>) request.getAttribute("classSchedule");
+    Boolean noRecords = (Boolean) request.getAttribute("noRecords"); // <-- Catch the noRecords attribute
+    int i = 1;
+
+    if (classes != null && !classes.isEmpty()) {
+        for (ClassStudent schedule : classes) {
+%>
+    <tr>
+        <td><%= i++ %></td>
+        <td><%= schedule.getClassName() %></td>
+        <td><%= schedule.getClassDayofweek() %></td>
+        <td><%= schedule.getClassStarttime() %></td>
+        <td><%= schedule.getClassEndtime() %></td>
+        <td><%= schedule.getClassLocation() %></td>
+        <td><%= schedule.getClassDesc() %></td>
+
+        <td>
+            <button class="edit-btn"
+                onclick="location.href='editClass?classId=<%= schedule.getClassId() %>'">Edit</button>
+        </td>
+        <td>
+            <button class="delete-btn"
+                onclick="location.href='deleteClass?classId=<%= schedule.getClassId() %>'">Delete</button>
+        </td>
+    </tr>
+<%
+        }
+    } else if (noRecords != null && noRecords) {
+%>
+    <tr>
+        <td colspan="9" style="text-align: center; font-weight: bold;">No Records Found</td>
+    </tr>
+<%
+    }
+%>
+
+</html>

@@ -1,0 +1,93 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="header.jsp" %>
+
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        ul.nav-menu {
+             list-style-type: none;
+    padding: 0;
+    margin: 20px auto 0 auto; /* Top margin and auto left-right for centering */
+    display: flex;
+    justify-content: center; /* This centers the items horizontally */
+    gap: 25px;
+        }
+        ul.nav-menu li a {
+            text-decoration: none;
+            background-color: #9C27B0;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+        ul.nav-menu li a:hover {
+            background-color: #7B1FA2;
+        }
+        .about-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        .about-container h2 {
+            text-align: center;
+            color: #9C27B0;
+            margin-bottom: 20px;
+        }
+
+        .about-container p {
+            font-size: 16px;
+            color: #444;
+        }
+
+        .video-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            max-width: 560px;
+            height: 315px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+
+<br><br>
+<nav>
+    <ul class="nav-menu">
+        <li><a href="${pageContext.request.contextPath}/admin/students">Manage Students</a></li>
+        <li><a href="${pageContext.request.contextPath}/admin/dance-forms">Dance Forms</a></li>
+        <li><a href="${pageContext.request.contextPath}/admin/fees">Track Monthly Fees</a></li>
+        <li><a href="${pageContext.request.contextPath}/admin/events">Events</a></li>
+         <li><a href="${pageContext.request.contextPath}/admin/gallery">Gallery</a></li>
+         <li><a href="${pageContext.request.contextPath}/admin/performances">Performances By Students</a></li>
+    </ul>
+</nav>
+
+<div class="about-container">
+    <h2>About Kalathmika School of Classical Dance</h2>
+    <p>
+        Kalathmika School of Classical Dance, located in Aluva, Kerala, is dedicated to preserving and promoting the rich heritage of Indian classical dance. 
+        The institution offers comprehensive training in traditional dance forms, emphasizing both technical proficiency and expressive artistry. 
+        Through performances and educational programs, Kalathmika aims to cultivate a deep appreciation for classical dance among students and the community.
+    </p>
+</div>
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/inwuY217FF0" allowfullscreen></iframe>
+    </div>
+
+
+
+
+<%@ include file="footer.jsp" %>
+</body>
+</html>

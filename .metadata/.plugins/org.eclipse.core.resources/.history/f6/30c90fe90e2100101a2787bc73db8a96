@@ -1,0 +1,15 @@
+package com.luminar.springbootkalathmika.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.luminar.springbootkalathmika.model.Dance;
+
+
+public interface DanceRepository extends JpaRepository<Dance, Integer>{
+
+	
+	List<Dance> findByDanceNameContainingIgnoreCase(String name);
+
+}

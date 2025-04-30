@@ -1,0 +1,77 @@
+package com.luminar.springbootkalathmika.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.luminar.springbootkalathmika.model.Student;
+import com.luminar.springbootkalathmika.repository.StudentRepository;
+
+@Service
+public class StudentServiceImpl  implements StudentService{
+
+	
+	 @Autowired
+	    private StudentRepository studentRepository; // JPA or DAO class
+	
+    @Override
+    public void saveStudent(Student student) {
+        studentRepository.save(student); // Assuming it's a Spring Data JPA repo
+    }
+    
+    public List<Student> getAllStudents() {
+        return studentRepository.findAll(); // JPA or DAO call
+    }
+
+    @Override
+    public List<Student> findByNameContainingIgnoreCase(String keyword) {
+    	
+    	 return studentRepository.findByStuNameContainingIgnoreCase(keyword);
+    }
+
+	@Override
+	public Student getStudentById(int id) {
+		 return studentRepository.findById(id)
+		            .orElseThrow(() -> new RuntimeException("Student not found with ID: " + id));
+	}
+
+	@Override
+	public void updateStudent(Student student) {
+	    // Optional: Check if the student exists before updating
+	    Optional<Student> existingStudentOpt = studentRepository.findById(student.getStuId());
+	    if (existingStudentOpt.isPresent()) {
+	        Student existingStudent = existingStudentOpt.get();
+
+	        // Update fields
+	        existingStudent.setStu_name(student.getStu_name());
+	        existingStudent.setStu_dob(student.getStu_dob());
+	        existingStudent.setStu_gender(student.getStu_gender());
+	        existingStudent.setStu_parent_name(student.getStu_parent_name());
+	        existingStudent.setStu_contact_number(student.getStu_contact_number());
+	        existingStudent.setStu_email(student.getStu_email());
+	        existingStudent.setStu_address(student.getStu_address());
+	        existingStudent.setStu_dateof_join(student.getStu_dateof_join());
+	        existingStudent.setStu_dance_form(student.getStu_dance_form());
+	        existingStudent.setStu_level(student.getStu_level());
+
+	        // Save updated student
+	        studentRepository.save(existingStudent);
+	    } else {
+	        // Optional: Handle case when student ID doesn't exist
+	        throw new RuntimeException("Student not found with ID: " + student.getStu_id());
+	    }
+	}
+
+	@Override
+	public void deleteStudentById(int id) {
+	    if (studentRepository.existsById(id)) {
+	        studentRepository.deleteById(id);
+	    } else {
+	        throw new RuntimeException("Student not found with ID: " + id);
+	    }
+	}
+
+
+}

@@ -1,0 +1,102 @@
+package com.luminar.springbootkalathmika.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "students") // Use your actual DB table name
+public class Student {
+
+    @Id
+    private int stu_id;
+
+    @Column(name = "stu_name")
+    private String stuName;
+    private String stu_dob;
+    private String stu_gender;
+    private String stu_parent_name;
+    private String stu_contact_number;
+    private String stu_email;
+    private String stu_address;
+    private String stu_dateof_join;
+    private String stu_dance_form;
+    private String stu_level;
+	public int getStu_id() {
+		return stu_id;
+	}
+	public void setStu_id(int stu_id) {
+		this.stu_id = stu_id;
+	}
+	public String getStu_name() {
+		return stuName;
+	}
+	public void setStu_name(String stu_name) {
+		this.stuName = stu_name;
+	}
+	public String getStu_dob() {
+		return stu_dob;
+	}
+	public void setStu_dob(String stu_dob) {
+		this.stu_dob = stu_dob;
+	}
+	public String getStu_gender() {
+		return stu_gender;
+	}
+	public void setStu_gender(String stu_gender) {
+		this.stu_gender = stu_gender;
+	}
+	public String getStu_parent_name() {
+		return stu_parent_name;
+	}
+	public void setStu_parent_name(String stu_parent_name) {
+		this.stu_parent_name = stu_parent_name;
+	}
+	public String getStu_contact_number() {
+		return stu_contact_number;
+	}
+	public void setStu_contact_number(String stu_contact_number) {
+		this.stu_contact_number = stu_contact_number;
+	}
+	public String getStu_email() {
+		return stu_email;
+	}
+	public void setStu_email(String stu_email) {
+		this.stu_email = stu_email;
+	}
+	public String getStu_address() {
+		return stu_address;
+	}
+	public void setStu_address(String stu_address) {
+		this.stu_address = stu_address;
+	}
+	public String getStu_dateof_join() {
+		return stu_dateof_join;
+	}
+	public void setStu_dateof_join(String stu_dateof_join) {
+		this.stu_dateof_join = stu_dateof_join;
+	}
+	public String getStu_dance_form() {
+		return stu_dance_form;
+	}
+	public void setStu_dance_form(String stu_dance_form) {
+		this.stu_dance_form = stu_dance_form;
+	}
+	public String getStu_level() {
+		return stu_level;
+	}
+	public void setStu_level(String stu_level) {
+		this.stu_level = stu_level;
+	}
+	@Override
+	public String toString() {
+		return "Student [stu_id=" + stu_id + ", stu_name=" + stuName + ", stu_dob=" + stu_dob + ", stu_gender="
+				+ stu_gender + ", stu_parent_name=" + stu_parent_name + ", stu_contact_number=" + stu_contact_number
+				+ ", stu_email=" + stu_email + ", stu_address=" + stu_address + ", stu_dateof_join=" + stu_dateof_join
+				+ ", stu_dance_form=" + stu_dance_form + ", stu_level=" + stu_level + "]";
+	}
+	
+
+   
+}

@@ -1,0 +1,35 @@
+package com.luminar.springbootkalathmika.service;
+
+import java.util.List;
+
+import com.luminar.springbootkalathmika.model.TrackFee;
+
+public interface TrackFeeService {
+
+	List<TrackFee> getAllTrackFees();
+
+	void saveTrackFee(TrackFee trackFee);
+
+	boolean feeAlreadyExists(int stuId, String feeMonth, String feeYear);
+
+	List<TrackFee> searchFees(String studentName, String month, String year);
+
+	TrackFee getFeeById(int feeId);
+
+	void updateFee(TrackFee trackFee);
+
+	void deleteFee(int feeId);
+
+	List<TrackFee> getFeeByStuId(Integer studentId);
+
+	List<TrackFee> getFeesByMonthYearAndStudent(String month, String year, int studentId);
+
+	List<TrackFee> getFeesByMonthAndStudent(String month, int studentId);
+
+	List<TrackFee> getFeesByYearAndStudent(String year, int studentId);
+
+	List<TrackFee> getAllFeesByStudent(int studentId);
+
+	
+
+}

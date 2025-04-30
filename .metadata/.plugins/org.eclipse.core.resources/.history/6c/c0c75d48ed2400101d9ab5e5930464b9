@@ -1,0 +1,213 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.luminar.springbootkalathmika.model.Student" %>
+<%@ include file="header.jsp" %>
+
+<%
+    Student student = (Student) request.getAttribute("StudentRecord");
+session.setAttribute("StudentRecord", student);
+%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Student Gallery</title>
+<style>
+/* Reset + General */
+body {
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #f3e7e9, #e3eeff);
+    color: #333;
+    animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* Navbar */
+ul.nav-menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px auto 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+ul.nav-menu li a {
+    text-decoration: none;
+    background-color: #9C27B0;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+}
+
+ul.nav-menu li a:hover {
+    background-color: #7B1FA2;
+}
+
+/* Main Container */
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+/* Video Section */
+.video-container {
+    flex: 1;
+    margin: 0 20px;
+    background-color: #fff;
+    padding: 30px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-width: 650px; /* limits the width */
+}
+
+.video-container iframe {
+    width: 100%;
+    height: 315px;
+}
+
+.watch-more {
+    margin-top: 15px;
+    display: block;
+    background-color: #9C27B0;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.watch-more:hover {
+    background: #7B1FA2;
+    box-shadow: 0 8px 20px rgba(156, 39, 176, 0.4);
+}
+
+/* Gallery Section */
+.gallery {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.gallery h2 {
+    font-size: 2.5rem;
+    color: #6A1B9A;
+    margin-bottom: 40px;
+}
+
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjusted for responsiveness */
+    gap: 25px;
+    padding: 0 20px;
+}
+
+.gallery img.gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    transition: transform 0.4s, box-shadow 0.4s;
+}
+
+.gallery img.gallery-image:hover {
+    transform: scale(1.05); /* Slight zoom effect */
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+
+/* Testimonials Section */
+.testimonials {
+    max-width: 900px;
+    margin: 80px auto;
+    padding: 40px 30px;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    border-radius: 15px;
+    animation: fadeIn 1.2s ease-in;
+}
+
+.testimonials h2 {
+    font-size: 2.3rem;
+    color: #6A1B9A;
+    margin-bottom: 30px;
+}
+
+.testimonial {
+    font-style: italic;
+    color: #666;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+/* Responsive Tweaks */
+@media (max-width: 768px) {
+    .video-container iframe {
+        height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-menu {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+</style>
+</head>
+<body>
+
+<nav>
+    <ul class="nav-menu">
+         <li><a href="/admin/student/dashboard">Home</a></li>
+        <li><a href="/admin/student/myProfile">My Profile</a></li>
+        <li><a href="/admin/student/myClasses">My Classes</a></li>
+        <li><a href="/admin/student/fees">Fees</a></li>
+        <li><a href="/admin/student/events">Events</a></li>
+        <li><a href="/admin/student/gallery">Gallery</a></li>
+       
+    </ul>
+</nav>
+
+<!-- Video Section -->
+<div class="main-container">
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/inwuY217FF0" allowfullscreen></iframe>
+        <br>
+        <a href="https://www.youtube.com/@kalathmikaschoolofclassica4011" class="watch-more" target="_blank">Watch More Videos</a>
+    </div>
+</div>
+
+<!-- Gallery Section -->
+<div class="gallery">
+    <h2>Student Gallery</h2>
+    <div class="gallery-container">
+        <img class="gallery-image" src="${pageContext.request.contextPath}/images/student-gallery1.jpg" alt="Student Performance 1">
+        <img class="gallery-image" src="${pageContext.request.contextPath}/images/student-gallery2.jpg" alt="Student Performance 2">
+        <img class="gallery-image" src="${pageContext.request.contextPath}/images/student-gallery3.jpg" alt="Student Performance 3">
+        <img class="gallery-image" src="${pageContext.request.contextPath}/images/student-gallery4.jpg" alt="Student Performance 4">
+        <img class="gallery-image" src="${pageContext.request.contextPath}/images/student-gallery5.jpg" alt="Student Performance 5">
+        <img class="gallery-image" src="${pageContext.request.contextPath}/images/student-gallery6.jpg" alt="Student Performance 6">
+        <img class="gallery-image" src="${pageContext.request.contextPath}/images/student-gallery7.jpg" alt="Student Performance 7">
+    </div>
+</div>
+
+<!-- Testimonials Section -->
+<div class="testimonials">
+    <h2>What Our Students Say</h2>
+    <p class="testimonial">"I love being a part of this amazing community! The gallery is just a reflection of our hard work and dedication." – Ananya</p>
+    <p class="testimonial">"The gallery really inspires me to keep pushing myself in my dance journey!" – Haritha</p>
+</div>
+
+<%@ include file="footer.jsp" %>
+
+</body>
+</html>

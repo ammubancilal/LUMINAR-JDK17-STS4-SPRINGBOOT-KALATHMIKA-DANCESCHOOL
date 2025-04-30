@@ -1,0 +1,69 @@
+package com.luminar.springbootkalathmika.controller;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.luminar.springbootkalathmika.model.Dance;
+import com.luminar.springbootkalathmika.service.DanceService;
+
+@Controller
+@RequestMapping("/admin")
+public class DanceController {
+	
+	@Autowired
+    private DanceService danceService;
+	
+	 @GetMapping("/danceForms")
+	    public String showDanceForms(Model model) {
+	        List<Dance> danceForms = danceService.getAllDanceForms();
+	        System.out.println(danceForms);
+	        model.addAttribute("danceForms", danceForms);
+	        return "danceForms"; // corresponds to danceForms.jsp
+	    }
+
+	 // GET method to show the form
+	    @GetMapping("/addNewDance")
+	    public String showAddDanceForm(Model model) {
+	        model.addAttribute("dance", new Dance()); // Dance is your model class
+	        return "addNewDance"; // This should match your HTML file name (addNewDance.html)
+	    }
+	    
+	    @PostMapping("/saveDance")
+	    public String saveDance(@ModelAttribute("dance") Dance dance) {
+	        danceService.saveDance(dance);
+	        return "redirect:/admin/danceForms"; // Redirect to the list view after saving
+	    }
+	
+	    
+	    @GetMapping("/editDance")
+	    public String editDanceForm(@RequestParam("dance_id") int id, Model model) {
+	        Dance dance = danceService.getDanceById(id);
+	        if (dance == null) {
+	            return "redirect:/admin/danceForms"; // or show an error page
+	        }
+	        model.addAttribute("dance", dance);
+	        return "editDance"; // JSP or HTML form name for editing
+	    }
+	    
+	    
+	    
+	    @PostMapping("/updateDance")
+	    public String updateDance(@ModelAttribute("dance") Dance dance) {
+	        dance.setDance_updated_at(LocalDateTime.now()); // Update the timestamp
+	        danceService.saveDance(dance); // Assuming saveDance handles both create and update
+	        return "redirect:/admin/danceForms"; // Redirect to the list of dances
+	    }
+	
+	
+	
+
+}

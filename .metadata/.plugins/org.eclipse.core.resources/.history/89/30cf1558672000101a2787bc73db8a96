@@ -1,0 +1,11 @@
+package com.luminar.springbootkalathmika.service;
+
+import java.util.List;
+
+import com.luminar.springbootkalathmika.model.Dance;
+
+public interface DanceService {
+
+	public List<Dance> getAllDanceForms();
+
+}

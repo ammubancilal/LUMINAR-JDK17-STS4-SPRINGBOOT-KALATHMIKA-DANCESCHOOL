@@ -1,0 +1,354 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.luminar.springbootkalathmika.model.Student" %>
+<%@ include file="header.jsp" %>
+<%@ page import="java.util.List"%>
+<%@ page import="com.luminar.springbootkalathmika.model.ClassStudent"%>
+
+<%
+    Student student = (Student) request.getAttribute("StudentRecord");
+session.setAttribute("StudentRecord", student);
+
+List<ClassStudent> classes = (List<ClassStudent>) request.getAttribute("classesStudent");
+
+
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student  Classes</title>
+    <style>
+       /* Reset default margin and padding for html and body */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Background and gradient */
+body {
+    background: 
+        linear-gradient(to right, rgba(243,229,245,0.8), rgba(237,231,246,0.8)),
+        url('${pageContext.request.contextPath}/images/bharat.webp') no-repeat left, 
+        url('${pageContext.request.contextPath}/images/bharat.webp') no-repeat right;
+    background-size: 30%;
+    background-position: left center, right center;
+    background-attachment: fixed;
+}
+
+/* Traditional Indian Borders (Top and Bottom) */
+body::before, body::after {
+    content: "";
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: url('https://via.placeholder.com/1920x30/fff/ff6347?text=Indian+Pattern') repeat-x;
+    z-index: 1;
+}
+
+body::before {
+    top: 0;
+}
+
+body::after {
+    bottom: 0;
+}
+
+
+.action-bar {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+
+.action-bar input[type="text"] {
+	padding: 8px;
+	width: 250px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
+.action-bar button {
+	background-color: #9C27B0;
+	color: white;
+	border: none;
+	padding: 10px 16px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.action-bar button:hover {
+	background-color: #7B1FA2;
+}
+
+table, th, td {
+	border: 1px solid #ddd;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: 30px;
+}
+
+th, td {
+	padding: 12px;
+	text-align: left;
+	border-bottom: 1px solid #ccc;
+}
+
+th {
+	background-color: #9C27B0;
+	color: white;
+}
+
+
+/* Navigation Styles */
+nav ul.nav-menu {
+    list-style: none;
+    padding: 0;
+    margin: 20px auto 0;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+nav ul.nav-menu li a {
+    text-decoration: none;
+    background-color: #9C27B0;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+nav ul.nav-menu li a:hover {
+    background-color: #7B1FA2;
+}
+
+
+
+
+
+/* Buttons */
+.btn-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.btn {
+    background-color: #7B1FA2;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.btn:hover {
+    background-color: #6A1B9A;
+}
+
+/* Flexbox for placing images on left and right sides */
+.bharatanatyam-gallery {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.bharatanatyam-gallery .image-left,
+.bharatanatyam-gallery .image-right {
+    width: 15%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.bharatanatyam-gallery img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+
+.bharatanatyam-gallery img:hover {
+    transform: scale(1.05);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .bharatanatyam-gallery {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: static;
+    }
+
+    .bharatanatyam-gallery .image-left,
+    .bharatanatyam-gallery .image-right {
+        width: 80%;
+        margin-bottom: 15px;
+    }
+
+    .profile-container {
+        margin: 20px;
+        padding: 20px;
+    }
+    
+    
+    
+    
+    
+    
+    
+    .manage-container {
+	width: fit-content;
+	margin: 40px auto;
+	background-color: #fff;
+	padding: 30px;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+	font-family: Arial, sans-serif;
+	border-radius: 10px;
+	overflow-x: auto;
+}
+
+.manage-container h2 {
+	text-align: center;
+	color: #9C27B0;
+	margin-bottom: 30px;
+}
+
+ul.nav-menu {
+	list-style-type: none;
+	padding: 0;
+	margin: 20px auto 0 auto;
+	display: flex;
+	justify-content: center;
+	gap: 25px;
+}
+
+ul.nav-menu li a {
+	text-decoration: none;
+	background-color: #9C27B0;
+	color: white;
+	padding: 12px 20px;
+	border-radius: 8px;
+}
+
+ul.nav-menu li a:hover {
+	background-color: #7B1FA2;
+}
+
+
+
+    
+    
+    
+    
+
+
+    </style>
+    
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("searchInput");
+    const eventTableBody = document.getElementById("eventTableBody");
+
+    function loadAllEvents() {
+        fetch("/admin/student/loadAllEvents")
+            .then(response => response.text())
+            .then(data => eventTableBody.innerHTML = data)
+            .catch(error => console.error("Error loading all events:", error));
+    }
+
+    function searchEvents(keyword) {
+        const url = "/admin/student/searchEvent?keyword=" + encodeURIComponent(keyword);
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                eventTableBody.innerHTML = data;
+            })
+            .catch(error => console.error("Error searching events:", error));
+    }
+
+    searchInput.addEventListener("input", function () {
+        const keyword = searchInput.value.trim();
+        if (keyword.length === 0) {
+            loadAllEvents();
+        } else {
+            searchEvents(keyword);
+        }
+    });
+});
+</script>
+</head>
+<body>
+
+
+<nav>
+    <ul class="nav-menu">
+        <li><a href="/admin/student/dashboard">Home</a></li>
+        <li><a href="/admin/student/myProfile">My Profile</a></li>
+        <li><a href="/admin/student/myClasses">My Classes</a></li>
+        <li><a href="/admin/student/fees">Fees</a></li>
+        <li><a href="/admin/student/events">Events</a></li>
+       
+    </ul>
+</nav>
+
+<div class="manage-container">
+	<h2>Kalathmika Classes</h2>
+
+	<div class="action-bar">
+		<input type="text" id="searchInput" placeholder="Search event by name...">
+		
+	</div>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Sl.No</th>
+				<th>Class Name</th>
+				<th>Class Day Of Week</th>
+				<th>Class Start Time</th>
+				<th>Class End Time</th>
+				<th>Class Location</th>
+				<th>Class Description</th>
+				
+				
+				<th>Created At</th>
+				<th>Updated At</th>
+				
+			</tr>
+		</thead>
+		<tbody id="eventTableBody">
+			<%
+				int i = 1;
+				for (Event event : events) {
+			%>
+			<tr>
+				<td><%= i++ %></td>
+				<td><%= event.getEventName() %></td>
+				<td><%= event.getEventDate() %></td>
+				<td><%= event.getEventLocation() %></td>
+				<td><%= event.getEventDesc() %></td>
+				<td><%= event.getEventCreatedat() %></td>
+				<td><%= event.getEventUpdatedat() %></td>
+				
+			</tr>
+			<% } %>
+		</tbody>
+	</table>
+</div>
+
+</body>
+</html>
+
+<%@ include file="footer.jsp" %>

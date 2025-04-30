@@ -1,0 +1,41 @@
+package com.luminar.springbootkalathmika.model;
+
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "events") // Use your actual DB table name
+public class Event {
+	
+	@Id
+	@Column(name = "event_id")
+	private int eventId;
+	
+	@Column(name = "event_name")
+	private String eventName;
+	
+	@Column(name = "event_date")
+	private String eventDate;
+	
+	@Column(name = "event_location")
+	private String eventLocation;
+	
+	@Column(name = "event_desc")
+	private String eventDesc;
+	
+	@Column(name = "event_created_at")
+	private LocalDateTime eventCreatedat;
+	
+	@Column(name = "event_updated_at")
+	private LocalDateTime eventUpdatedat;
+	
+	
+	
+	
+	
+
+}

@@ -1,0 +1,51 @@
+<%@ page import="java.util.List" %>
+<%@ page import="com.luminar.springbootkalathmika.model.Dance" %>
+<html>
+<head>
+<style>
+td button {
+            margin: 0 5px;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .edit-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+</style>
+
+
+</head>
+<%
+    List<Dance> dances = (List<Dance>) request.getAttribute("dances");
+    int index = 1;
+    if (dances != null) {
+        for (Dance dance : dances) {
+%>
+    <tr>
+        <td><%= index++ %></td>
+        <td><%= dance.getDance_name() %></td>
+        <td><%= dance.getDance_desc() %></td>
+        <td><%= dance.getDance_origin_state() %></td>
+         <td><%= dance.getDance_created_at() %></td>
+          <td><%= dance.getDance_updated_at() %></td>
+        
+        <td>
+            <button class="edit-btn" onclick="location.href='editDance?dance_id=<%= dance.getDance_id() %>'">Edit</button>
+           <td> <button class="delete-btn" onclick="if(confirm('Are you sure?')) location.href='deleteDance?stu_id=<%= dance.getDance_id() %>'">Delete</button>
+        </td>
+    </tr>
+<%
+        }
+    }
+%>
+</html>

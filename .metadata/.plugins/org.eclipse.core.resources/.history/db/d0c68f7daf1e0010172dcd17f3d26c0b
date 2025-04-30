@@ -1,0 +1,181 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="header.jsp" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Kalathmika School</title>
+    <style>
+    ul.nav-menu {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px auto 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        ul.nav-menu li a {
+            text-decoration: none;
+            background-color: #9C27B0;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+
+        ul.nav-menu li a:hover {
+            background-color: #7B1FA2;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #f8e1ff, #ffffff);
+        }
+
+        .main-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 40px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .about-container, .video-container {
+            flex: 1;
+            margin: 0 20px;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .about-container h2 {
+            color: #9C27B0;
+            text-align: center;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 315px;
+        }
+
+        .watch-more {
+            margin-top: 15px;
+            display: block;
+            background-color: #9C27B0;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .gallery, .testimonials, .founder {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .gallery img {
+            width: 150px;
+            height: auto;
+            margin: 10px;
+            border-radius: 8px;
+        }
+
+        .testimonial {
+            font-style: italic;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .founder img {
+            float: left;
+            margin-right: 20px;
+            height: 120px;
+            border-radius: 10px;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <ul class="nav-menu">
+        <li><a href="#">Manage Students</a></li>
+        <li><a href="#">Dance Forms</a></li>
+        <li><a href="#">Track Fees</a></li>
+        <li><a href="#">Events</a></li>
+        <li><a href="#">Gallery</a></li>
+        <li><a href="#">Performances</a></li>
+    </ul>
+</nav>
+
+<div class="main-container">
+    <div class="about-container">
+        <h2>About Kalathmika</h2>
+        <p>
+            Kalathmika School of Classical Dance, located in the culturally vibrant town of Aluva, Kerala, is a prestigious institution dedicated to the promotion and preservation of Indian classical dance traditions, particularly Bharatanatyam and Kuchipudi.<br>
+
+Founded with a deep-rooted vision of nurturing artistic excellence. <br><br> Kalathmika provides students with a holistic learning environment where discipline, devotion, and creativity are equally emphasized. The school believes that classical dance is not merely a form of performance, but a path toward inner transformation and cultural understanding.
+<br>
+At Kalathmika, students are trained under the guidance of experienced and passionate gurus, who uphold the guru-shishya parampara (traditional teacher-student lineage). The syllabus is thoughtfully designed to cover theory, rhythm (nattuvangam), expressions (abhinaya), stage presence, and performance etiquette.
+
+Beyond regular classes, the school actively organizes:<br><br>
+
+Annual performances and arangetrams (debut stage performances)<br><br>
+
+Workshops by renowned artists<br><br>
+
+Participation in national and international cultural festivals<br><br>
+
+Community outreach through cultural awareness programs<br><br>
+
+Kalathmika stands as a cultural sanctuary where tradition meets modern expression, instilling values of respect, grace, and discipline in every learner. The serene campus and the nurturing atmosphere make it a second home for budding dancers who aspire to master the classical arts.
+        </p>
+    </div>
+
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/inwuY217FF0" allowfullscreen></iframe>
+        <a href="https://www.youtube.com/@kalathmikaschoolofclassica4011" class="watch-more" target="_blank">Watch More</a>
+    </div>
+</div>
+
+<!-- Gallery Section -->
+<div class="gallery">
+    <h2 style="text-align: center; color:#9C27B0;">Photo Gallery</h2>
+    <div style="text-align: center;">
+        <img src="${pageContext.request.contextPath}/images/bharat1.jpg" alt="Kalathmika Logo">
+        <img src="${pageContext.request.contextPath}/images/bharat2.jpg" alt="Kalathmika Logo">
+        <img src="${pageContext.request.contextPath}/images/gallery5.jpeg" alt="Kalathmika Logo">
+        <img src="${pageContext.request.contextPath}/images/gallery1.jpeg" alt="Kalathmika Logo">
+        <img src="${pageContext.request.contextPath}/images/gallery2.jpeg" alt="Kalathmika Logo">
+        <img src="${pageContext.request.contextPath}/images/gallery3.jpeg" alt="Kalathmika Logo">
+        <img src="${pageContext.request.contextPath}/images/gallery4.jpeg" alt="Kalathmika Logo">
+    </div>
+</div>
+
+<!-- Testimonials -->
+<div class="testimonials">
+    <h2 style="text-align: center; color:#9C27B0;">What Our Students Say</h2>
+    <p class="testimonial">"A beautiful space to learn and grow through the power of classical dance!" – Ananya</p>
+    <p class="testimonial">"The teachers are amazing and passionate. Kalathmika changed my life." – Haritha</p>
+</div>
+
+<!-- Founder Info -->
+<div class="founder">
+    <img src="images/founder.jpg" alt="Founder Image">
+    <h2 style="color:#9C27B0;">Meet Our Founder</h2>
+    <p>
+        Smt. Radhika Suresh, a passionate exponent of Bharatanatyam and Kuchipudi, founded Kalathmika to spread cultural excellence 
+        and inspire young minds through the timeless art of dance.
+    </p>
+</div>
+
+<%@ include file="footer.jsp" %>
+</body>
+</html>

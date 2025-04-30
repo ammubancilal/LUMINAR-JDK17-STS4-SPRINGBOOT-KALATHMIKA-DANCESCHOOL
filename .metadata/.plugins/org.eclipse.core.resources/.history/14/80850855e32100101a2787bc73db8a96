@@ -1,0 +1,93 @@
+package com.luminar.springbootkalathmika.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.luminar.springbootkalathmika.model.Student;
+import com.luminar.springbootkalathmika.model.TrackFee;
+import com.luminar.springbootkalathmika.repository.StudentRepository;
+import com.luminar.springbootkalathmika.service.TrackFeeService;
+
+@Controller
+@RequestMapping("/admin")
+public class TrackFeeController {
+	
+	 @Autowired
+	    private TrackFeeService feeService;
+	 
+	 @Autowired
+	    private StudentRepository studentRepository;  // Autowired StudentRepository for fetching students
+	
+	 @GetMapping("/trackFees")
+	    public String getAllTrackFees(Model model) {
+	        List<TrackFee> fees = feeService.getAllTrackFees();
+	        model.addAttribute("fees", fees);
+	        return "trackFees"; // Ensure you have a JSP named trackFees.jsp
+	    }
+	 
+	 
+	// Method to show the Add Payment form for the student
+	    @GetMapping("/addPaymentForm")
+	    public String showPaymentForm(@RequestParam("stu_id") int stuId, Model model) {
+	        
+			// Fetch student by student ID
+	        Student student = studentRepository.findById(stuId)
+	                .orElseThrow(() -> new RuntimeException("Student not found"));
+
+	        // Add the student to the model to display in the form
+	        model.addAttribute("student", student);
+
+	        // Return the view (JSP) where the payment form will be shown
+	        return "addStudentFee"; // This is the JSP page for the payment form
+	    }
+	    
+	 // Method to handle the form submission and save fee details
+	    @PostMapping("/submitStudentFee")
+	    public String saveStudentFee(@ModelAttribute TrackFee trackFee, Model model) {
+
+	        System.out.println("In controller method");
+
+	        try {
+	            // Validate student details
+	            if (trackFee.getStudent() == null || trackFee.getStudent().getStuId() == 0) {
+	                model.addAttribute("error", "Invalid student data");
+	                return "errorPage";
+	            }
+
+	            // Check if payment already exists
+	            boolean exists = feeService.feeAlreadyExists(
+	                trackFee.getStudent().getStuId(),
+	                trackFee.getFeeMonth(),
+	                trackFee.getFeeYear()
+	            );
+
+	            if (exists) {
+	            	 System.out.println("Existing student fee record");
+	            	    model.addAttribute("trackFee", trackFee);  // Optional if you're using it in JSP
+	            	    model.addAttribute("student", trackFee.getStudent());     // ✅ Required
+	            	    model.addAttribute("message", "Payment details already entered for this student.");
+	            	    return "addStudentFee";
+	            }
+
+	            // Save the fee details
+	            feeService.saveTrackFee(trackFee);
+
+	            return "redirect:/admin/trackFees";
+
+	        } catch (Exception e) {
+	            model.addAttribute("error", "Error saving student fee: " + e.getMessage());
+	            return "errorPage";
+	        }
+	    }
+
+	
+
+}

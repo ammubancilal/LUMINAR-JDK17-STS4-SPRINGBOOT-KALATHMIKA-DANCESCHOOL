@@ -1,0 +1,82 @@
+package com.luminar.springbootkalathmika.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.luminar.springbootkalathmika.model.TrackFee;
+import com.luminar.springbootkalathmika.repository.TrackFeeRepository;
+
+@Service
+public class TrackFeeServiceImpl implements TrackFeeService {
+
+    @Autowired
+    private TrackFeeRepository trackFeeRepository;
+
+    @Override
+    public List<TrackFee> getAllTrackFees() {
+        return trackFeeRepository.findAll(); // This will retrieve all fees
+    }
+
+    // Save a TrackFee (called from the controller when the fee is submitted)
+    @Override
+    public void saveTrackFee(TrackFee trackFee) {
+        trackFeeRepository.save(trackFee);  // This will save the TrackFee object to the database
+    }
+
+	@Override
+	public boolean feeAlreadyExists(int stuId, String feeMonth, String feeYear) {
+		 return trackFeeRepository.existsByStudent_StuIdAndFeeMonthAndFeeYear(stuId, feeMonth, feeYear);
+	}
+
+	@Override
+	public List<TrackFee> searchFees(String studentName, String month, String year) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TrackFee getFeeById(int feeId) {
+		 return trackFeeRepository.findById(feeId)
+		            .orElse(null); // Or throw a custom exception if you prefer
+	}
+
+	@Override
+	public void updateFee(TrackFee trackFee) {
+		 // First, fetch the existing fee by ID
+	    Optional<TrackFee> existingFeeOpt = trackFeeRepository.findById(trackFee.getFeeId());
+
+	    if (existingFeeOpt.isPresent()) {
+	        TrackFee existingFee = existingFeeOpt.get();
+
+	        // Update field
+	        existingFee.setFeeYear(trackFee.getFeeYear());
+	        existingFee.setFeeMonth(trackFee.getFeeMonth());
+	        existingFee.setAmount(trackFee.getAmount());
+	        existingFee.setPaymentDate(trackFee.getPaymentDate());
+	        existingFee.setDance(trackFee.getDance());
+	        existingFee.setStudent(trackFee.getStudent());
+
+	        // Save updated entity
+	        trackFeeRepository.save(existingFee);
+	    } else {
+	        throw new RuntimeException("Fee record not found for ID: " + trackFee.getFeeId());
+	    }
+		
+	}
+
+	/*
+	 * @Override public List<TrackFee> searchFees(String studentName, String month,
+	 * String year) { // If any parameter is null or empty, we just pass null for
+	 * that parameter. // For studentName, we use LIKE for partial matching. if
+	 * (studentName != null && !studentName.isEmpty()) { studentName = "%" +
+	 * studentName + "%"; // Enable partial matching }
+	 * 
+	 * // Return the filtered results by calling the repository's search method
+	 * return trackFeeRepository.searchByFilters(studentName, month, year); }
+	 */
+
+	
+}

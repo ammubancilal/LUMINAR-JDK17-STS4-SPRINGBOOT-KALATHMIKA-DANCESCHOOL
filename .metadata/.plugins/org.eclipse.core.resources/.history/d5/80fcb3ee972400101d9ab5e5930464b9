@@ -1,0 +1,27 @@
+package com.luminar.springbootkalathmika.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.luminar.springbootkalathmika.model.ClassStudent;
+import com.luminar.springbootkalathmika.service.ClassStudentService;
+import com.luminar.springbootkalathmika.service.EventService;
+
+@Controller
+public class ClassStudentController {
+	
+	@Autowired
+    private ClassStudentService classStudentService;
+	
+	  @GetMapping("/admin/student/myClasses")
+	    public String viewMyClasses(Model model) {
+	        List<ClassStudent> classes = classStudentService.getAllClasses();
+	        model.addAttribute("classesStudent", classes);
+	        return "StudentViewClasses"; // JSP page name (myClasses.jsp)
+	    }
+
+}

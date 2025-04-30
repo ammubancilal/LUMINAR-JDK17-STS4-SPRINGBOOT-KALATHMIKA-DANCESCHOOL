@@ -1,0 +1,196 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.luminar.springbootkalathmika.model.Student" %>
+<%@ include file="header.jsp" %>
+
+<%
+    Student student = (Student) session.getAttribute("StudentRecord");
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Profile</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background:
+                linear-gradient(to right, rgba(243,229,245,0.8), rgba(237,231,246,0.8)),
+                url('${pageContext.request.contextPath}/images/bharat.webp') no-repeat left, 
+                url('${pageContext.request.contextPath}/images/bharat.webp') no-repeat right;
+            background-size: 30%;
+            background-position: left center, right center;
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        nav ul.nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 20px auto 0;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        nav ul.nav-menu li a {
+            text-decoration: none;
+            background-color: #9C27B0;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul.nav-menu li a:hover {
+            background-color: #7B1FA2;
+        }
+
+        .form-container {
+            background: rgba(0,0,0,0.4);
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            color: white;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #FFD700;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            background-color: #7B1FA2;
+            color: white;
+            padding: 10px 25px;
+            margin: 0 10px;
+            border-radius: 8px;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #6A1B9A;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                margin: 20px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <ul class="nav-menu">
+        <li><a href="/admin/student/dashboard">Home</a></li>
+        <li><a href="/admin/student/myProfile">My Profile</a></li>
+        <li><a href="/admin/student/myClasses">My Classes</a></li>
+        <li><a href="/admin/student/fees">Fees</a></li>
+        <li><a href="/admin/student/events">Events</a></li>
+        <li><a href="/admin/student/gallery">Gallery</a></li>
+    </ul>
+</nav>
+
+<div class="form-container">
+    <h1>Edit My Profile</h1>
+
+    <form action="/admin/student/updateProfile" method="post">
+
+        <div class="form-group">
+            <label for="stuName">Name</label>
+            <input type="text" id="stuName" name="stuName" value="<%= student.getStuName() %>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="stuParentname">Parent Name</label>
+            <input type="text" id="stuParentname" name="stuParentname" value="<%= student.getStuParentname() %>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="stuEmail">Email</label>
+            <input type="email" id="stuEmail" name="stuEmail" value="<%= student.getStuEmail() %>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="stuContactnumber">Phone</label>
+            <input type="tel" id="stuContactnumber" name="stuContactnumber" value="<%= student.getStuContactnumber() %>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="stuAddress">Address</label>
+            <input type="text" id="stuAddress" name="stuAddress" value="<%= student.getStuAddress() %>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="stuDob">Date of Birth</label>
+            <input type="date" id="stuDob" name="stuDob" value="<%= student.getStuDob() %>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="stuGender">Gender</label>
+            <input type="text" id="stuGender" name="stuGender" value="<%= student.getStuGender() %>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="stuDanceform">Dance Form Opted</label>
+            <input type="text" id="stuDanceform" name="stuDanceform" value="<%= student.getStuDanceform() %>" required>
+        </div>
+        
+         <div class="form-group">
+            <label for="stuDanceform">Student Level</label>
+            <input type="text" id="stuDanceform" name="stuDanceform" value="<%= student.getStuLevel() %>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="stuDateofJoin">Joining Date</label>
+            <input type="date" id="stuDateofJoin" name="stuDateofJoin" value="<%= student.getStuDateofJoin() %>" required>
+        </div>
+
+        <div class="btn-container">
+            <button type="submit" class="btn">Save Changes</button>
+            <a href="/admin/student/myProfile" class="btn">Cancel</a>
+        </div>
+
+    </form>
+</div>
+
+<%@ include file="footer.jsp" %>
+
+</body>
+</html>

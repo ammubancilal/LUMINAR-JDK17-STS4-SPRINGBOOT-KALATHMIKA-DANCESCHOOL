@@ -1,0 +1,27 @@
+package com.luminar.springbootkalathmika.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.luminar.springbootkalathmika.model.TrackFee;
+
+public interface TrackFeeRepository extends JpaRepository<TrackFee, Integer> {
+
+    List<TrackFee> findAll();
+
+    boolean existsByStudent_StuIdAndFeeMonthAndFeeYear(int stuId, String feeMonth, String feeYear);
+
+    @Query("SELECT tf FROM TrackFee tf " +
+            "WHERE (:studentName IS NULL OR tf.student.stuName LIKE :studentName) " +
+            "AND (:month IS NULL OR tf.feeMonth = :month) " +
+            "AND (:year IS NULL OR tf.feeYear = :year)")
+     List<TrackFee> searchByFilters(@Param("studentName") String studentName,
+                                    @Param("month") String month,
+                                    @Param("year") String year);
+
+	TrackFee findByStuId(Integer studentId);
+
+}

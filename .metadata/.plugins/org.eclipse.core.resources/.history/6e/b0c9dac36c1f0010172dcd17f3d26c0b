@@ -1,0 +1,25 @@
+package com.luminar.springbootkalathmika.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.luminar.springbootkalathmika.model.Student;
+import com.luminar.springbootkalathmika.repository.StudentRepository;
+
+@Service
+public class StudentServiceImpl  implements StudentService{
+
+	
+	 @Autowired
+	    private StudentRepository studentRepository; // JPA or DAO class
+	
+    @Override
+    public void saveStudent(Student student) {
+        studentRepository.save(student); // Assuming it's a Spring Data JPA repo
+    }
+    
+    public List<Student> getAllStudents() {
+        return studentRepository.findAll(); // JPA or DAO call
+    }
+
+}

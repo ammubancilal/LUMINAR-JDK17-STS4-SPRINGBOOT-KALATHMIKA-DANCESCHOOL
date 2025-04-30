@@ -1,0 +1,125 @@
+package com.luminar.springbootkalathmika.model;
+
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "students") // Use your actual DB table name
+public class Student {
+
+	@Id
+	@Column(name = "stu_id")
+	private int stuId;
+
+
+    @Column(name = "stu_name")
+    private String stuName;
+    
+    @Column(name = "stu_dob")
+    private String stuDob;
+    
+    @Column(name = "stu_gender")
+    private String stuGender;
+    
+    @Column(name = "stu_parent_name")
+    private String stuParentname;
+    
+    @Column(name = "stu_contact_number")
+    private String stuContactnumber;
+    private String stuEmail;
+    private String stuAddress;
+    private String stuDateofJoin;
+    private String stuDanceform;
+    private String stuLevel;
+    
+    public int getStuId() {
+		return stuId;
+	}
+	public void setStuId(int stuId) {
+		this.stuId = stuId;
+	}
+	@OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TrackFee> fees;
+    
+	public String getStuName() {
+		return stuName;
+	}
+	public void setStuName(String stuName) {
+		this.stuName = stuName;
+	}
+	public String getStuDob() {
+		return stuDob;
+	}
+	public void setStuDob(String stuDob) {
+		this.stuDob = stuDob;
+	}
+	public String getStuGender() {
+		return stuGender;
+	}
+	public void setStuGender(String stuGender) {
+		this.stuGender = stuGender;
+	}
+	public String getStuParentname() {
+		return stuParentname;
+	}
+	public void setStuParentname(String stuParentname) {
+		this.stuParentname = stuParentname;
+	}
+	public String getStuContactnumber() {
+		return stuContactnumber;
+	}
+	public void setStuContactnumber(String stuContactnumber) {
+		this.stuContactnumber = stuContactnumber;
+	}
+	public String getStuEmail() {
+		return stuEmail;
+	}
+	public void setStuEmail(String stuEmail) {
+		this.stuEmail = stuEmail;
+	}
+	public String getStuAddress() {
+		return stuAddress;
+	}
+	public void setStuAddress(String stuAddress) {
+		this.stuAddress = stuAddress;
+	}
+	public String getStuDateofJoin() {
+		return stuDateofJoin;
+	}
+	public void setStuDateofJoin(String stuDateofJoin) {
+		this.stuDateofJoin = stuDateofJoin;
+	}
+	public String getStuDanceform() {
+		return stuDanceform;
+	}
+	public void setStuDanceform(String stuDanceform) {
+		this.stuDanceform = stuDanceform;
+	}
+	public String getStuLevel() {
+		return stuLevel;
+	}
+	public void setStuLevel(String stuLevel) {
+		this.stuLevel = stuLevel;
+	}
+	public List<TrackFee> getFees() {
+		return fees;
+	}
+	public void setFees(List<TrackFee> fees) {
+		this.fees = fees;
+	}
+    
+	
+	
+	
+	
+	
+
+   
+}

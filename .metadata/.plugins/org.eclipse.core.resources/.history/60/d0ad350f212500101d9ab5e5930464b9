@@ -1,0 +1,183 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="header.jsp" %>
+<%@ page import="com.luminar.springbootkalathmika.model.Student"%>
+
+<%
+    Student student  = (Student)request.getAttribute("StudentRecord");
+session.setAttribute("StudentId", student.getStuId());
+session.setAttribute("StudentRecord", student);
+%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet"> <!-- Indian touch font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Clean sans-serif font -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #FDECEC, #FAF3F3),
+                        url('${pageContext.request.contextPath}/images/bharat.webp') no-repeat center;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        nav {
+            background-color: #9C27B0;
+            padding: 10px 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-menu li {
+            margin: 0 15px;
+        }
+
+        .nav-menu li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 8px 20px;
+            border-radius: 8px;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .nav-menu li a:hover {
+            background-color: #7B1FA2;
+            transform: scale(1.1);
+        }
+
+        .dashboard-container {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-title {
+            font-family: 'Marcellus', serif;
+            font-size: 36px;
+            color: #9C27B0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px 0;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #F9F6FF;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .dashboard-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .dashboard-section h3 {
+            font-family: 'Marcellus', serif;
+            font-size: 24px;
+            color: #7B1FA2;
+            margin-bottom: 15px;
+        }
+
+        .dashboard-section p {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            color: white;
+            background: linear-gradient(to right, #9C27B0, #7B1FA2);
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn:hover {
+            background: linear-gradient(to right, #7B1FA2, #9C27B0);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                margin: 20px;
+                padding: 20px;
+            }
+
+            .dashboard-section {
+                margin: 20px 0;
+            }
+
+            .nav-menu li a {
+                font-size: 14px;
+                padding: 6px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <ul class="nav-menu">
+        <li><a href="/admin/student/dashboard">Home</a></li>
+        <li><a href="/admin/student/myProfile">My Profile</a></li>
+        <li><a href="/admin/student/myClasses">My Classes</a></li>
+        <li><a href="/admin/student/fees">Fees</a></li>
+        <li><a href="/admin/student/events">Events</a></li>
+        <li><a href="/admin/student/gallery">Gallery</a></li>
+    </ul>
+</nav>
+
+<div class="dashboard-container">
+    <h1 class="dashboard-title">Welcome, <%=student.getStuName() %></h1>
+
+    <div class="dashboard-section">
+        <h3>My Classes</h3>
+        <p>View your class schedules, dance forms, and timings.</p>
+        <a href="/admin/student/myClasses" class="btn">View Classes</a>
+    </div>
+
+    <div class="dashboard-section">
+        <h3>Fees</h3>
+        <p>Track your fee payments and dues.</p>
+        <a href="/admin/student/fees" class="btn">Track Fees</a>
+    </div>
+
+    <div class="dashboard-section">
+        <h3>Upcoming Events</h3>
+        <p>Check upcoming performances and competitions.</p>
+        <a href="/admin/student/events" class="btn">View Events</a>
+    </div>
+
+    <div class="dashboard-section">
+        <h3>Gallery</h3>
+        <p>Explore photos and videos of events and performances.</p>
+        <a href="/admin/student/gallery" class="btn">View Gallery</a>
+    </div>
+</div>
+
+</body>
+</html>
+<%@ include file="footer.jsp" %>

@@ -1,0 +1,5 @@
+package com.luminar.springbootkalathmika.repository;
+
+public interface DanceRepository {
+
+}

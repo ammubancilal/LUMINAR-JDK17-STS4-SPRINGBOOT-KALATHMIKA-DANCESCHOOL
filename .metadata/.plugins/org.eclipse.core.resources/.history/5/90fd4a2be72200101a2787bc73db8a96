@@ -1,0 +1,31 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.luminar.springbootkalathmika.model.Event" %>
+
+<tbody>
+    <% 
+        if (events != null && !events.isEmpty()) {
+            int i = 1;
+            for (Event event : events) { 
+    %>
+    <tr>
+        <td><%= i++ %></td>
+        <td><%= event.getEventName() %></td>
+        <td><%= event.getEventDate() %></td>
+        <td><%= event.getEventLocation() %></td>
+        <td><%= event.getEventDesc() %></td>
+        <td><%= event.getEventCreatedat() %></td>
+        <td><%= event.getEventUpdatedat() %></td>
+        <td>
+            <button class="edit-btn" onclick="location.href='editEvent?event_id=<%= event.getEventId() %>'">Edit</button>
+        </td>
+        <td>
+            <button class="delete-btn" onclick="location.href='deleteEvent?event_id=<%= event.getEventId() %>'">Delete</button>
+        </td>
+    </tr>
+    <% } } else { %>
+    <tr>
+        <td colspan="9" style="text-align:center;">No events found</td>
+    </tr>
+    <% } %>
+</tbody>

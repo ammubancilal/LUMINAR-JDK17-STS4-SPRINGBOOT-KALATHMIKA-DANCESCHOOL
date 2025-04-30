@@ -1,0 +1,38 @@
+package com.luminar.springbootkalathmika.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class AdminController {
+	
+	 @GetMapping("/adminlogin")
+	    public String showAdminLogin() {
+	        return "adminLogin"; // this should match the JSP file name (adminlogin.jsp)
+	    }
+	 
+	 @GetMapping("/studentlogin")
+	    public String showStudentLogin() {
+	        return "studentLogin"; // this should match the JSP file name (adminlogin.jsp)
+	    }
+	 
+		
+		  @GetMapping("/student/dashboard")
+		  public String studentDashBoard() { 
+			  return "studentDashBoard"; }
+		 
+	 
+	 
+	 
+	 @GetMapping("/admin/dashboard")
+	    public String dashboard() {
+	        return "adminDashBoard";
+	    }
+	 
+	 @GetMapping("/admin/Gallery")
+	 public String showGalleryPage() {
+	     return "gallery"; // This will forward to gallery.jsp
+	 }
+
+
+}

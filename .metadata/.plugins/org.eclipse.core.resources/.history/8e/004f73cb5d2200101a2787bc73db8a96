@@ -1,0 +1,119 @@
+package com.luminar.springbootkalathmika.controller;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.luminar.springbootkalathmika.model.Dance;
+import com.luminar.springbootkalathmika.service.DanceService;
+
+@Controller
+@RequestMapping("/admin")
+public class DanceController {
+	
+	@Autowired
+    private DanceService danceService;
+	
+	 @GetMapping("/danceForms")
+	    public String showDanceForms(Model model) {
+	        List<Dance> danceForms = danceService.getAllDanceForms();
+	        System.out.println(danceForms);
+	        model.addAttribute("danceForms", danceForms);
+	        return "danceForms"; // corresponds to danceForms.jsp
+	    }
+
+	 // GET method to show the form
+	    @GetMapping("/addNewDance")
+	    public String showAddDanceForm(Model model) {
+	        model.addAttribute("dance", new Dance()); // Dance is your model class
+	        return "addNewDance"; // This should match your HTML file name (addNewDance.html)
+	    }
+	    
+	    @PostMapping("/saveDance")
+	    public String saveDance(@ModelAttribute("dance") Dance dance) {
+	        danceService.saveDanceForm(dance);
+	        return "redirect:/admin/danceForms"; // Redirect to the list view after saving
+	    }
+	
+	    
+	    @GetMapping("/editDance")
+	    public String editDanceForm(@RequestParam("dance_id") int id, Model model) {
+	        Dance dance = danceService.getDanceById(id);
+	        if (dance == null) {
+	            return "redirect:/admin/danceForms"; // or show an error page
+	        }
+	        model.addAttribute("dance", dance);
+	        return "editDance"; // JSP or HTML form name for editing
+	    }
+	    
+	    
+	    
+	    @PostMapping("/updateDance")
+	    public String updateDance(@ModelAttribute("dance") Dance dance) {
+	        // Step 1: Fetch the existing record
+	        Dance existingDance = danceService.getDanceById(dance.getDance_id());
+
+	        if (existingDance != null) {
+	            // Step 2: Preserve original created_at timestamp
+	            dance.setDance_created_at(existingDance.getDance_created_at());
+
+	            // Step 3: Set updated_at
+	            dance.setDance_updated_at(LocalDateTime.now());
+
+	            // Step 4: Save the updated object
+	            danceService.saveDance(dance);
+	        }
+
+	        return "redirect:/admin/danceForms";
+	    }
+	    
+	    
+	    
+	    @GetMapping("/deleteDance")
+	    public String deleteDance(@RequestParam("dance_id") int id) {
+	        Dance dance = danceService.getDanceById(id);
+	        if (dance != null) {
+	            danceService.deleteDanceById(id);
+	        }
+	        return "redirect:/admin/danceForms";
+	    }
+	    
+	    
+	    @GetMapping("/searchDance")
+	    public String searchDances(@RequestParam("keyword") String keyword, Model model) {
+	        System.out.println("Received search keyword: [" + keyword + "]");
+
+	        if (keyword != null && !keyword.trim().isEmpty()) {
+	            List<Dance> dances = danceService.findByDanceNameContainingIgnoreCase(keyword.trim());
+	            System.out.println("Matched results: " + dances.size());
+	            dances.forEach(d -> System.out.println(d.getDance_name()));
+	            model.addAttribute("dances", dances);
+	        } else {
+	            System.out.println("No valid search keyword provided.");
+	            model.addAttribute("danceForms", danceService.getAllDanceForms());
+	        }
+
+	        return "danceRows"; // JSP or fragment name for displaying filtered dances
+	    }
+	    
+	    
+	    @GetMapping("/loadAllDances")
+	    public String loadAllDances(Model model) {
+	        List<Dance> dances = danceService.getAllDances();
+	        model.addAttribute("dances", dances);
+	        return "danceRows"; // JSP or Thymeleaf fragment for <tbody> rows
+	    }
+
+	
+	
+	
+
+}

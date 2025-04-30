@@ -1,0 +1,18 @@
+package com.luminar.springbootkalathmika.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "events") // Use your actual DB table name
+public class Event {
+	
+	@Id
+	@Column(name = "event_id")
+	private int eventId;
+	
+	
+
+}

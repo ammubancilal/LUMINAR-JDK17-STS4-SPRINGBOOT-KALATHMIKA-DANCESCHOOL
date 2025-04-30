@@ -1,0 +1,18 @@
+package com.luminar.springbootkalathmika.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.luminar.springbootkalathmika.model.Dance;
+
+@Service
+public class DanceServiceImpl implements DanceService{
+
+	@Override
+	public List<Dance> getAllDanceForms() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,224 @@
+package com.luminar.springbootkalathmika.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.luminar.springbootkalathmika.model.Event;
+import com.luminar.springbootkalathmika.model.Member;
+import com.luminar.springbootkalathmika.model.Student;
+import com.luminar.springbootkalathmika.model.User;
+import com.luminar.springbootkalathmika.repository.StudentRepository;
+import com.luminar.springbootkalathmika.repository.UserRepository;
+import com.luminar.springbootkalathmika.service.EventService;
+import com.luminar.springbootkalathmika.service.StudentService;
+
+import jakarta.servlet.http.HttpSession;
+
+
+@Controller
+@RequestMapping("/admin")
+public class StudentController {
+	
+	@Autowired
+	private StudentService studentService;
+
+	@Autowired
+	private EventService eventService;
+	
+	@Autowired
+	private StudentRepository studentRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	 @GetMapping("/manageStudents")
+	 public String getAllStudents(Model model) {
+	        List<Student> students = studentService.getAllStudents();
+	        model.addAttribute("students", students);
+	        return "manageStudents"; // JSP file name (manageStudents.jsp)
+	    }
+
+	 @GetMapping("/addNewStudent")
+	    public String showAddStudentForm(Model model) {
+	        // Optionally add an empty student object to bind form data
+	        model.addAttribute("student", new Student());
+	        return "addNewStudent"; // This should match the JSP name: addStudent.jsp
+	    }
+	 
+	 @PostMapping("/saveStudent")
+	 public String saveStudent(@ModelAttribute Member member,
+	                            @ModelAttribute User user,
+	                            @ModelAttribute Student student) {
+		 
+		 member.setMemAddress(student.getStuAddress());
+		 member.setMemPhonenumber(student.getStuContactnumber());
+		 member.setMemEmailid(student.getStuEmail());
+		 member.setMemGender(student.getStuGender());
+	     studentService.saveStudent(member, user, student);
+	        return "redirect:/admin/manageStudents"; // redirect to the student list page
+	 }
+	 
+	 @GetMapping("/searchStudents")
+	 public String searchStudents(@RequestParam("keyword") String keyword, Model model) {
+	     // Check what we received in the controller
+	     System.out.println("Received search keyword: [" + keyword + "]");
+
+	     // If the keyword is not empty, search the database
+	     if (keyword != null && !keyword.trim().isEmpty()) {
+	         // Perform the search, for example:
+	         List<Student> students = studentService.findByNameContainingIgnoreCase(keyword.trim());
+	         model.addAttribute("students", students);
+	     } else {
+	         System.out.println("No valid search keyword provided.");
+	     }
+
+	     return "studentRows";  // Replace with your actual view name
+	 }
+	 
+	 
+		@GetMapping("/loadAllStudents")
+		public String loadAllStudents(Model model) {
+			List<Student> students = studentService.getAllStudents();
+			model.addAttribute("students", students);
+			return "studentRows"; // returns  only the tbody  rows
+		}
+		
+		
+		@GetMapping("/editStudent")
+		public String showEditForm(@RequestParam("stu_id") int id, Model model) {
+		    Student student = studentService.getStudentById(id);
+		    model.addAttribute("student", student);
+		    return "editStudent"; // Make sure this matches your JSP filename (editStudent.jsp)
+		}
+		
+		@PostMapping("/editStudent")
+		public String updateStudent(@ModelAttribute("student") Student student) {
+		    studentService.updateStudent(student);
+		    return "redirect:/admin/manageStudents";
+		}
+		
+		
+		@GetMapping("/deleteStudent")
+		public String deleteStudent(@RequestParam("stu_id") int id) {
+		    studentService.deleteStudentById(id);
+		    return "redirect:/admin/manageStudents"; // Redirect to the student list page
+		}
+		 
+		@GetMapping("/student/myProfile")
+		public String viewMyProfile(HttpSession session, Model model) {
+		    // Retrieve studentId from session (assuming it's stored there)
+		    Integer studentId = (Integer) session.getAttribute("StudentId");
+		    System.out.println("studentId is"+studentId);
+
+		    if (studentId == null) {
+		        model.addAttribute("errorMessage", "Student not found!");
+		        return "studentLogin";
+		    }
+
+		    // Fetch the full student object based on studentId
+		    Student student = studentService.getStudentById(studentId);
+
+		    if (student == null) {
+		        model.addAttribute("errorMessage", "Student not found!");
+		        return "errorPage"; // Show error page if student is not found
+		    }
+
+		    // Add the full student object to the model
+		    model.addAttribute("StudentRecord", student);
+             
+		    System.out.println("in my profile");
+		    
+		    // Return the view name (JSP page)
+		    return "studentProfile";
+		}
+
+
+		 @RequestMapping("/student/dashboard")
+		    public String showDashboard(HttpSession session,Model model) {
+			 // Retrieve the StudentRecord from the session
+		        Student student = (Student) session.getAttribute("StudentRecord");
+		        
+		        
+		        // Check if student object exists in the session
+		        if (student != null) {
+		            model.addAttribute("StudentRecord", student);
+		        } else {
+		            // Handle the case where the session attribute is not found (e.g., student not logged in)
+		            model.addAttribute("error", "No student session found. Please login.");
+		            return "studentLogin";
+		        }
+
+		        // Return the view name (JSP file)
+		        return "studentDashBoard"; // This maps to "/WEB-INF/jsp/studentDashBoard.jsp"
+		    }
+		
+		  
+		 @RequestMapping("/student/events")
+		    public String showStudentEvents(HttpSession session,Model model) {
+		        // Here you would typically fetch events from the database
+		        // For example, let's assume you have a list of events
+			 Student student = (Student) session.getAttribute("StudentRecord");
+			 
+			 if (student != null) {
+		            // If student object exists, add it to the model
+		            model.addAttribute("StudentRecord", student);
+		            List<Event> events = eventService.getAllEvents(); // Assuming eventService is a service to fetch events
+			        
+			        // Add the events to the model to be accessed in the JSP
+			        model.addAttribute("events", events);
+
+			        // Return the view name (JSP file)
+			        return "studentViewEvents"; // This maps to "/WEB-INF/jsp/adminStudentEvents.jsp"
+		        } else {
+		            // Handle the case where the student is not in the session
+		            // For example, you could redirect to a login page
+		            return "studentLogin"; // Assuming you have a login page
+		        }
+
+		      
+		    }
+		 
+		 @GetMapping("/student/gallery")
+		    public String showStudentGallery(HttpSession session,Model model) {
+			 Student student = (Student) session.getAttribute("StudentRecord");
+			 model.addAttribute("StudentRecord", student);
+		        return "studentGallery";  // Assuming your JSP is named studentGallery.jsp
+		    }
+       
+		  @GetMapping("/student/editProfile")
+		    public String editProfilePage(HttpSession session, Model model) {
+		        // Get the current student record from session
+		        Student student = (Student) session.getAttribute("StudentRecord");
+
+		        // (Optional) You can add the student to the model if needed
+		        model.addAttribute("StudentRecord", student);
+
+		        // Return the JSP page name (without extension)
+		        return "studentProfileEdit"; // This will load studentProfileEdit.jsp
+		    }
+		  
+		  
+		  @PostMapping("/student/updateProfile")
+		    public String updateProfile(@ModelAttribute Student student, HttpSession session) {
+		        // Save updated student to database
+		        studentRepository.save(student);
+
+		        // Update session
+		        session.setAttribute("StudentRecord", student);
+
+		        // Redirect back to profile page
+		        return "redirect:/student/myProfile";
+		    }
+	 
+	
+	 
+	 
+}

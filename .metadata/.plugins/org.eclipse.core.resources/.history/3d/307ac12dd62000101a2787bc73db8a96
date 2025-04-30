@@ -1,0 +1,60 @@
+package com.luminar.springbootkalathmika.service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.luminar.springbootkalathmika.model.Dance;
+import com.luminar.springbootkalathmika.repository.DanceRepository;
+
+@Service
+public class DanceServiceImpl implements DanceService{
+	
+	@Autowired
+	private DanceRepository danceRepository;
+
+	@Override
+	public List<Dance> getAllDanceForms() {
+		return danceRepository.findAll();
+	}
+
+	@Override
+	public void saveDanceForm(Dance danceForm) {
+	    // Optionally set timestamps
+	    LocalDateTime now = LocalDateTime.now();
+	    danceForm.setDance_created_at(now);
+	    danceForm.setDance_updated_at(now);
+
+	    danceRepository.save(danceForm); // Make sure you autowire danceRepository
+	}
+
+	@Override
+	public void saveDance(Dance dance) {
+		   LocalDateTime now = LocalDateTime.now();
+		   
+		   
+
+		    danceRepository.save(dance);
+		
+	}
+
+	@Override
+	public Dance getDanceById(int id) {
+		 return danceRepository.findById(id).orElse(null); // Returns null if not found
+	}
+
+	@Override
+	public void deleteDanceById(int id) {
+		 danceRepository.deleteById(id);
+		
+	}
+
+	@Override
+	public List<Dance> findBydance_nameContainingIgnoreCase(String keyword) {
+	    return danceRepository.findBydance_nameContainingIgnoreCase(keyword);
+	}
+
+	
+}

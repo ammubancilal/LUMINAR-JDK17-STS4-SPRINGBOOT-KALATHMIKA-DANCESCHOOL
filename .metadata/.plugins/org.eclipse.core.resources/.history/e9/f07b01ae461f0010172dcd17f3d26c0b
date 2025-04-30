@@ -1,0 +1,26 @@
+package com.luminar.springbootkalathmika.repository;
+
+import com.luminar.springbootkalathmika.model.Student;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+public class StudentRepository {
+
+	public void save(Student student) {
+		 String sql = "INSERT INTO students (stu_name, stu_dob, stu_gender, stu_parentName, stu_contactNumber, stu_email, stu_address, stu_dateOfjoin, stu_danceForm, stu_level) " +
+                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    jdbcTemplate.update(sql,
+            student.getStu_name(),
+            student.getStu_dob(),
+            student.getStu_gender(),
+            student.getStu_parentName(),
+            student.getStu_contactNumber(),
+            student.getStu_email(),
+            student.getStu_address(),
+            student.getStu_dateOfjoin(),
+            student.getStu_danceForm(),
+            student.getStu_level()
+    );
+		
+	}
+
+}

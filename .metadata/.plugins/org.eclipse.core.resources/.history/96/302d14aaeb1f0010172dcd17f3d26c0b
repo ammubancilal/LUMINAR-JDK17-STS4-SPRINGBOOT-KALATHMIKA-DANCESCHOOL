@@ -1,0 +1,21 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<c:forEach var="student" items="${students}" varStatus="loop">
+    <tr>
+        <td>${loop.index + 1}</td>
+        <td>${student.stu_name}</td>
+        <td>${student.stu_dob}</td>
+        <td>${student.stu_gender}</td>
+        <td>${student.stu_parent_name}</td>
+        <td>${student.stu_contact_number}</td>
+        <td>${student.stu_email}</td>
+        <td>${student.stu_address}</td>
+        <td>${student.stu_dateof_join}</td>
+        <td>${student.stu_dance_form}</td>
+        <td>${student.stu_level}</td>
+        <td>
+            <a href="editStudent?id=${student.stu_id}">Edit</a> |
+            <a href="deleteStudent?id=${student.stu_id}">Delete</a>
+        </td>
+    </tr>
+</c:forEach>

@@ -1,0 +1,9 @@
+package com.luminar.springbootkalathmika.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.luminar.springbootkalathmika.model.Event;
+
+public interface ClassRepository extends JpaRepository<Event, Integer>{
+
+}

@@ -1,0 +1,45 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="header.jsp" %>
+
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        ul.nav-menu {
+             list-style-type: none;
+    padding: 0;
+    margin: 20px auto 0 auto; /* Top margin and auto left-right for centering */
+    display: flex;
+    justify-content: center; /* This centers the items horizontally */
+    gap: 25px;
+        }
+        ul.nav-menu li a {
+            text-decoration: none;
+            background-color: #9C27B0;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+        ul.nav-menu li a:hover {
+            background-color: #7B1FA2;
+        }
+    </style>
+</head>
+<body>
+
+<h3>Select an option:</h3>
+
+<nav>
+    <ul class="nav-menu">
+        <li><a href="${pageContext.request.contextPath}/admin/students">Manage Students</a></li>
+        <li><a href="${pageContext.request.contextPath}/admin/dance-forms">Dance Forms</a></li>
+        <li><a href="${pageContext.request.contextPath}/admin/fees">Track Monthly Fees</a></li>
+        <li><a href="${pageContext.request.contextPath}/admin/events">Events</a></li>
+         <li><a href="${pageContext.request.contextPath}/admin/gallery">Gallery</a></li>
+         <li><a href="${pageContext.request.contextPath}/admin/gallery">Performances By Students</a></li>
+    </ul>
+</nav>
+
+<%@ include file="footer.jsp" %>
+</body>
+</html>

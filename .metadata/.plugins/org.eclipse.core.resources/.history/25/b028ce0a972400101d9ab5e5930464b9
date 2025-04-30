@@ -1,0 +1,23 @@
+package com.luminar.springbootkalathmika.controller;
+
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.luminar.springbootkalathmika.model.ClassStudent;
+
+@Controller
+public class ClassStudentController {
+	
+	
+	
+	  @GetMapping("/admin/student/myClasses")
+	    public String viewMyClasses(Model model) {
+	        List<ClassStudent> classes = classStudentservice.getAllClasses();
+	        model.addAttribute("classes", classes);
+	        return "myClasses"; // JSP page name (myClasses.jsp)
+	    }
+
+}

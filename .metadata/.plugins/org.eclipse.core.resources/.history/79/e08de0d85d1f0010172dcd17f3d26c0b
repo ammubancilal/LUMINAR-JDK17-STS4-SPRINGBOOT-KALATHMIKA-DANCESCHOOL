@@ -1,0 +1,47 @@
+package com.luminar.springbootkalathmika.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.luminar.springbootkalathmika.model.Student;
+import com.luminar.springbootkalathmika.service.StudentService;
+
+
+@Controller
+@RequestMapping("/admin")
+public class StudentController {
+	
+	@Autowired
+	private StudentService studentService;
+
+	
+	
+	
+	 @GetMapping("/manageStudents")
+	    public String manageStudentsPage() {
+	        // This returns the view name (JSP page)
+	        return "manageStudents"; // Resolves to /WEB-INF/views/manageStudents.jsp
+	    }
+
+	 @GetMapping("/addNewStudent")
+	    public String showAddStudentForm(Model model) {
+	        // Optionally add an empty student object to bind form data
+	        model.addAttribute("student", new Student());
+	        return "addNewStudent"; // This should match the JSP name: addStudent.jsp
+	    }
+	 
+	 @PostMapping("/saveStudent")
+	 public String saveStudent(@ModelAttribute("student") Student student) {
+		 System.out.println(student);
+		 
+		 studentService.saveStudent(student); // this calls repository internally
+	        return "redirect:/manageStudents"; // redirect to the student list page
+	 }
+	 
+	 
+}

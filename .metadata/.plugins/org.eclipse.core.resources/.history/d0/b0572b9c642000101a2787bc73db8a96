@@ -1,0 +1,182 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="header.jsp" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.luminar.springbootkalathmika.model.Dance" %>
+
+<%
+    List<Dance> danceForms = (List<Dance>) request.getAttribute("danceForms");
+%>
+
+<html>
+<head>
+    <title>Dance Forms</title>
+    <style>
+     html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            flex: 1;
+        }
+    
+        ul.nav-menu {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px auto 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        ul.nav-menu li a {
+            text-decoration: none;
+            background-color: #9C27B0;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+
+        ul.nav-menu li a:hover {
+            background-color: #7B1FA2;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        
+         
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #9C27B0;
+            color: white;
+        }
+         .edit-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        
+
+        .btn {
+            background-color: #9C27B0;
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #7B1FA2;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <ul class="nav-menu">
+    <li><a href="/admin/dashboard">Home</a></li>
+        <li><a href="/admin/manageStudents">Manage Students</a></li>
+        <li><a href="/admin/danceForms">Dance Forms</a></li>
+        <li><a href="/admin/trackFees">Track Fees</a></li>
+        <li><a href="/admin/Events">Events</a></li>
+        <li><a href="/admin/Gallery">Gallery</a></li>
+        <li><a href="/admin/Performances">Performances</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <h2>Dance Forms</h2>
+
+    <form action="${pageContext.request.contextPath}/admin/addDanceForm" method="post">
+        <div class="form-group">
+            <label for="danceFormName">New Dance Form:</label>
+            <input type="text" id="danceFormName" name="name" required>
+        </div>
+        <button type="submit" class="btn">Add Dance Form</button>
+    </form>
+
+    <br><br>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Sl.No</th>
+                <th>Dance Name</th>
+                <th>Description</th>
+                 <th>Origin State</th>
+                  <th>Created At</th>
+                   <th>Updated At</th>
+                   <th>Edit</th>
+                   <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%   int i = 1;
+            
+            for (Dance form : danceForms) { %>
+                <tr>
+                    <td><%= i++ %></td>
+                    <td><%= form.getDance_name() %></td>
+                    <td><%= form.getDance_desc() %></td>
+                    <td><%= form.getDance_origin_state() %></td>
+                     <td><%= form.getDance_created_at() %></td>
+                      <td><%= form.getDance_updated_at() %></td>
+                    
+                    
+                    <td>
+                        <button class="edit-btn" onclick="location.href='editDance?dance_id=<%= form.getDance_id() %>'">Edit</button>
+                    </td>
+                    <td>
+                    <button class="delete-btn" onclick="location.href='deleteDance?dance_id=<%= form.getDance_id() %>'">Delete</button>
+                    
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
+
+<%@ include file="footer.jsp" %>

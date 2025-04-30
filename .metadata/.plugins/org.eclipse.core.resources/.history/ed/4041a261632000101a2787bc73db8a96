@@ -1,0 +1,210 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="header.jsp" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.luminar.springbootkalathmika.model.Dance" %>
+
+<%
+    List<Dance> danceForms = (List<Dance>) request.getAttribute("danceForms");
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dance Forms</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+        }
+
+        ul.nav-menu {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            background-color: #9C27B0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        ul.nav-menu li a {
+            display: block;
+            padding: 14px 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        ul.nav-menu li a:hover {
+            background-color: #7B1FA2;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 40px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            border-radius: 12px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #9C27B0;
+            margin-bottom: 30px;
+        }
+
+        form {
+            margin-bottom: 40px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .btn {
+            background-color: #9C27B0;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #7B1FA2;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 14px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #9C27B0;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .edit-btn, .delete-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .edit-btn {
+            background-color: #4CAF50;
+        }
+
+        .edit-btn:hover {
+            background-color: #388E3C;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+        }
+
+        .delete-btn:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <ul class="nav-menu">
+        <li><a href="/admin/dashboard">Home</a></li>
+        <li><a href="/admin/manageStudents">Manage Students</a></li>
+        <li><a href="/admin/danceForms">Dance Forms</a></li>
+        <li><a href="/admin/trackFees">Track Fees</a></li>
+        <li><a href="/admin/Events">Events</a></li>
+        <li><a href="/admin/Gallery">Gallery</a></li>
+        <li><a href="/admin/Performances">Performances</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <h2>Dance Forms</h2>
+
+    <form action="${pageContext.request.contextPath}/admin/addDanceForm" method="post">
+        <div class="form-group">
+            <label for="danceFormName">New Dance Form:</label>
+            <input type="text" id="danceFormName" name="name" required>
+        </div>
+        <button type="submit" class="btn">Add Dance Form</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Sl.No</th>
+                <th>Dance Name</th>
+                <th>Description</th>
+                <th>Origin State</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%
+                int i = 1;
+                if (danceForms != null) {
+                    for (Dance form : danceForms) {
+            %>
+            <tr>
+                <td><%= i++ %></td>
+                <td><%= form.getDance_name() %></td>
+                <td><%= form.getDance_desc() %></td>
+                <td><%= form.getDance_origin_state() %></td>
+                <td><%= form.getDance_created_at() %></td>
+                <td><%= form.getDance_updated_at() %></td>
+                <td>
+                    <button class="edit-btn" onclick="location.href='editDance?dance_id=<%= form.getDance_id() %>'">Edit</button>
+                </td>
+                <td>
+                    <button class="delete-btn" onclick="location.href='deleteDance?dance_id=<%= form.getDance_id() %>'">Delete</button>
+                </td>
+            </tr>
+            <% 
+                    }
+                } else {
+            %>
+            <tr>
+                <td colspan="8" style="text-align:center;">No dance forms available.</td>
+            </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
+
+<%@ include file="footer.jsp" %>

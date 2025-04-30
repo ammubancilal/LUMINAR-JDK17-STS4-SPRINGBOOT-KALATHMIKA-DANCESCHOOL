@@ -1,0 +1,13 @@
+package com.luminar.springbootkalathmika.service;
+
+import java.util.List;
+
+import com.luminar.springbootkalathmika.model.TrackFee;
+
+public interface TrackFeeService {
+
+	List<TrackFee> getAllTrackFees();
+
+	void saveTrackFee(TrackFee trackFee);
+
+}

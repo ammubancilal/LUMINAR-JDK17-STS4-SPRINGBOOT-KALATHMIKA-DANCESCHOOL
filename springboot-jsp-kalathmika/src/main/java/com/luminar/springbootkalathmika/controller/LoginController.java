@@ -1,0 +1,94 @@
+package com.luminar.springbootkalathmika.controller;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.luminar.springbootkalathmika.model.Student;
+import com.luminar.springbootkalathmika.model.User;
+import com.luminar.springbootkalathmika.service.StudentService;
+import com.luminar.springbootkalathmika.service.UserService;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class LoginController {
+
+	
+	@Autowired
+    private UserService userService;
+	
+	@Autowired
+    private StudentService studentService;
+	
+	@GetMapping("/")
+    public String index() {
+        return "index"; // Looks for index.jsp
+    }
+	
+	
+	@GetMapping("/index")
+    public String indexBack() {
+        return "index"; // Looks for index.jsp
+    }
+	
+	
+	@PostMapping("/login")
+    public String login(@RequestParam String username,
+                        @RequestParam String password,
+                        Model model) {
+		int memId;
+		Student student;
+		System.out.println("Inside student login");
+        Optional<User> optionalUser = userService.authenticate(username, password);
+        
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            String role = user.getUserRole(); // Assuming you have a `role` field in your User model
+        
+            
+            // ⭐ Save logged-in username to session
+            
+            switch (role.toLowerCase()) {
+                case "admin":
+                    return "redirect:/admin/dashboard";
+                case "student":{
+                	 memId=user.getMemId();
+                	 Optional<Student> optionalStudent = studentService.getStudentByMemId(memId);
+                	 if(optionalStudent.isPresent()) {
+                		 student= optionalStudent.get();
+                		 String stuName=student.getStuName();
+                		
+                		 model.addAttribute("StudentRecord", student);
+                		 
+                	 }
+                	 
+                	 
+                	 return "studentDashBoard";
+                
+                	 
+                }
+                case "teacher":
+                    return "redirect:/teacher/portal";
+                default:
+                    model.addAttribute("error", "Unknown role");
+                    return "login"; // go back to login page
+            }
+        } else {
+            model.addAttribute("error", "Invalid username or password");
+            return "studentLogin"; // go back to login page
+        }
+    }
+	
+	
+	
+	
+	
+	
+	
+}

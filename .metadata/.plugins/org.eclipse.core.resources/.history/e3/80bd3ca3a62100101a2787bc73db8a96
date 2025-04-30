@@ -1,0 +1,15 @@
+package com.luminar.springbootkalathmika.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.luminar.springbootkalathmika.model.TrackFee;
+
+public interface TrackFeeRepository extends JpaRepository<TrackFee, Integer> {
+
+	List<TrackFee> findAll();
+
+	  boolean existsByStudent_Stu_idAndFeeMonthAndFeeYear(int stu_id, String feeMonth, String feeYear);
+
+}

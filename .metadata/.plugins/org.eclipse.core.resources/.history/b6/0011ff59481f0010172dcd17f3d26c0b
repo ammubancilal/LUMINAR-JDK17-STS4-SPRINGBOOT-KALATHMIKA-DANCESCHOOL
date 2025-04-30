@@ -1,0 +1,84 @@
+package com.luminar.springbootkalathmika.model;
+
+public class Student {
+	
+	private int stu_id;
+	private String stu_name;
+	private String stu_dob;
+	private String stu_gender;
+	private String stu_parentName;
+	private String stu_contactNumber;
+	private String stu_email;
+	private String stu_address;
+	private String stu_dateOfjoin;
+	private String stu_danceForm;
+	private String stu_level;
+	public int getStu_id() {
+		return stu_id;
+	}
+	public void setStu_id(int stu_id) {
+		this.stu_id = stu_id;
+	}
+	public String getStu_name() {
+		return stu_name;
+	}
+	public void setStu_name(String stu_name) {
+		this.stu_name = stu_name;
+	}
+	public String getStu_dob() {
+		return stu_dob;
+	}
+	public void setStu_dob(String stu_dob) {
+		this.stu_dob = stu_dob;
+	}
+	public String getStu_gender() {
+		return stu_gender;
+	}
+	public void setStu_gender(String stu_gender) {
+		this.stu_gender = stu_gender;
+	}
+	public String getStu_parentName() {
+		return stu_parentName;
+	}
+	public void setStu_parentName(String stu_parentName) {
+		this.stu_parentName = stu_parentName;
+	}
+	public String getStu_contactNumber() {
+		return stu_contactNumber;
+	}
+	public void setStu_contactNumber(String stu_contactNumber) {
+		this.stu_contactNumber = stu_contactNumber;
+	}
+	public String getStu_email() {
+		return stu_email;
+	}
+	public void setStu_email(String stu_email) {
+		this.stu_email = stu_email;
+	}
+	public String getStu_address() {
+		return stu_address;
+	}
+	public void setStu_address(String stu_address) {
+		this.stu_address = stu_address;
+	}
+	public String getStu_dateOfjoin() {
+		return stu_dateOfjoin;
+	}
+	public void setStu_dateOfjoin(String stu_dateOfjoin) {
+		this.stu_dateOfjoin = stu_dateOfjoin;
+	}
+	public String getStu_danceForm() {
+		return stu_danceForm;
+	}
+	public void setStu_danceForm(String stu_danceForm) {
+		this.stu_danceForm = stu_danceForm;
+	}
+	public String getStu_level() {
+		return stu_level;
+	}
+	public void setStu_level(String stu_level) {
+		this.stu_level = stu_level;
+	}
+	
+
+}

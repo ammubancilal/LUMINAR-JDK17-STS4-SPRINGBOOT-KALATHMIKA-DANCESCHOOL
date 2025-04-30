@@ -1,0 +1,56 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalathmika Footer</title>
+    <style>
+        /* General styling for the body and layout */
+        html, body {
+            height: 100%; /* Ensures the body takes up the full height of the screen */
+            margin: 0; /* Removes default margin */
+            display: flex;
+            flex-direction: column; /* Stacks the content vertically */
+        }
+
+        /* Main content area */
+        .content {
+            flex-grow: 1; /* Takes up the remaining space to push the footer to the bottom */
+        }
+
+        /* Footer section styling */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #9C27B0;
+            border-top: 1px solid #ccc;
+            margin-top: auto; /* Push footer to bottom if there's space */
+        width: 100%;
+        }
+
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+   <!--  <div class="content">
+        Your main content goes here
+        
+    </div> -->
+
+    <div class="footer">
+        &copy; 2025 Kalathmika Dance School. All rights reserved.
+    </div>
+
+</body>
+</html>

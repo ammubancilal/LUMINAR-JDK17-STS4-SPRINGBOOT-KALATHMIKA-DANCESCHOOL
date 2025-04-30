@@ -1,0 +1,284 @@
+package com.luminar.springbootkalathmika.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.luminar.springbootkalathmika.model.Student;
+import com.luminar.springbootkalathmika.model.TrackFee;
+import com.luminar.springbootkalathmika.repository.StudentRepository;
+import com.luminar.springbootkalathmika.service.StudentService;
+import com.luminar.springbootkalathmika.service.TrackFeeService;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+@RequestMapping("/admin")
+public class TrackFeeController {
+	
+	 @Autowired
+	    private TrackFeeService feeService;
+	 
+	 @Autowired
+	    private StudentService  studentService;
+	 
+	 @Autowired
+	    private StudentRepository studentRepository;  // Autowired StudentRepository for fetching students
+	
+	 @GetMapping("/trackFees")
+	    public String getAllTrackFees(Model model) {
+	        List<TrackFee> fees = feeService.getAllTrackFees();
+	        model.addAttribute("fees", fees);
+	        return "trackFees"; // Ensure you have a JSP named trackFees.jsp
+	    }
+	 
+	 
+	// Method to show the Add Payment form for the student
+	    @GetMapping("/addPaymentForm")
+	    public String showPaymentForm(@RequestParam("stu_id") int stuId, Model model) {
+	        
+			// Fetch student by student ID
+	        Student student = studentRepository.findById(stuId)
+	                .orElseThrow(() -> new RuntimeException("Student not found"));
+
+	        // Add the student to the model to display in the form
+	        model.addAttribute("student", student);
+
+	        // Return the view (JSP) where the payment form will be shown
+	        return "addStudentFee"; // This is the JSP page for the payment form
+	    }
+	    
+	 // Method to handle the form submission and save fee details
+	    @PostMapping("/submitStudentFee")
+	    public String saveStudentFee(@ModelAttribute TrackFee trackFee, Model model) {
+
+	        System.out.println("In controller method");
+
+	        try {
+	            // Validate student details
+	            if (trackFee.getStudent() == null || trackFee.getStudent().getStuId() == 0) {
+	                model.addAttribute("error", "Invalid student data");
+	                return "errorPage";
+	            }
+
+	            // Check if payment already exists
+	            boolean exists = feeService.feeAlreadyExists(
+	                trackFee.getStudent().getStuId(),
+	                trackFee.getFeeMonth(),
+	                trackFee.getFeeYear()
+	            );
+
+	            if (exists) {
+	            	 System.out.println("Existing student fee record");
+	            	    model.addAttribute("trackFee", trackFee);  // Optional if you're using it in JSP
+	            	    model.addAttribute("student", trackFee.getStudent());     // ✅ Required
+	            	    model.addAttribute("message", "Payment details already entered for this student.");
+	            	    return "addStudentFee";
+	            }
+
+	            // Save the fee details
+	            feeService.saveTrackFee(trackFee);
+
+	            return "redirect:/admin/trackFees";
+
+	        } catch (Exception e) {
+	            model.addAttribute("error", "Error saving student fee: " + e.getMessage());
+	            return "errorPage";
+	        }
+	    }
+	    
+	    
+	    @GetMapping("/searchFeeRecords")
+	    @ResponseBody
+	    public String searchFeeRecords(@RequestParam(value = "studentName", required = false) String studentName,
+	                                   @RequestParam(value = "month", required = false) String month,
+	                                   @RequestParam(value = "year", required = false) String year) {
+	    	
+	        List<TrackFee> filteredFees = feeService.searchFees(studentName, month, year);
+	        return buildFeeTableHTML(filteredFees);
+	    }
+         
+	   
+	    private String buildFeeTableHTML(List<TrackFee> fees) {
+	    	 int serialNo = 1; // Initialize serial number
+	        if (fees == null || fees.isEmpty()) {
+	            return "<tr><td colspan='6'>No records found</td></tr>";
+	        }
+
+	        StringBuilder html = new StringBuilder();
+	        for (TrackFee fee : fees) {
+	        	 html.append("<tr>")
+	             .append("<td>").append(serialNo++).append("</td>")  // Serial number column
+	             .append("<td>").append(safe(fee.getStudent().getStuName())).append("</td>")
+	             .append("<td>").append(safe(fee.getFeeMonth())).append("</td>")
+	             .append("<td>").append(safe(fee.getFeeYear())).append("</td>")
+	             .append("<td>").append(safe(fee.getFeeAmountpaid())).append("</td>")
+	             .append("<td>").append(safe(fee.getFeePaymentdate())).append("</td>")
+	             .append("<td>").append(safe(fee.getFeePaymentstatus())).append("</td>")
+	             .append("<td>")
+	             .append("<button style='background-color: #4CAF50; color: white; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer;' ")
+	             .append("onclick=\"location.href='editFee?fee_id=").append(fee.getFeeId()).append("'\">Edit</button>")
+	             .append("</td>")
+	             .append("<td>")
+	             .append("<button style='background-color: #f44336; color: white; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer;' ")
+	             .append("onclick=\"location.href='deleteFee?fee_id=").append(fee.getFeeId()).append("'\">Delete</button>")
+	             .append("</td>")
+
+	             .append("</tr>");
+	        }
+	        return html.toString();
+	    }
+
+	    private String safe(Object value) {
+	        return value == null ? "" : String.valueOf(value);
+	    }
+
+	    
+	    @GetMapping("/editFee")
+	    public String editFee(@RequestParam("fee_id") int feeId, Model model) {
+	        // Assuming you have a service to fetch fee details
+	        TrackFee trackFee = feeService.getFeeById(feeId);
+
+	        if (trackFee == null) {
+	            // Handle fee not found
+	            return "redirect:/error";
+	        }
+
+	        model.addAttribute("trackFee", trackFee);
+	        return "editFee"; // This is your JSP file (edit-fee-form.jsp)
+	    }
+	    
+	    @PostMapping("/updateStudentFee")
+	    public String updateStudentFee(@ModelAttribute TrackFee trackFee, Model model) {
+	    	feeService.updateFee(trackFee); // Assuming you have a service method for updating
+	        model.addAttribute("message", "Fee updated successfully!");
+	        return "redirect:/admin/trackFees"; // Redirect to a page after update
+	    }
+	    
+	    
+	    @RequestMapping("/deleteFee")
+	    public String deleteFee(@RequestParam("fee_id") int feeId) {
+	        try {
+	            // Call the service to delete the TrackFee by ID
+	            feeService.deleteFee(feeId);
+
+	            // After successful deletion, redirect to the track fees page
+	            return "redirect:/admin/trackFees";  // Modify with your desired redirect page
+	        } catch (Exception e) {
+	            // Handle exceptions such as fee not found
+	            e.printStackTrace();
+	            // Redirect to error page or show error message
+	            return "redirect:/admin/trackFees?error=true";
+	        }
+	    }
+	    
+	    
+	    @GetMapping("/student/fees")
+	    public String viewFeesPage(HttpSession session, Model model) {
+	    	// Retrieve studentId from session (assuming it's stored there)
+		    Integer studentId = (Integer) session.getAttribute("StudentId");
+		    System.out.println("studentId is"+studentId);
+
+		    if (studentId == null) {
+		        model.addAttribute("errorMessage", "Student not found!");
+		        return "studentLogin";
+		    }
+
+		    // Fetch the full student object based on studentId
+		    Student student = studentService.getStudentById(studentId);
+
+		    if (student == null) {
+		        model.addAttribute("errorMessage", "Student not found!");
+		        return "errorPage"; // Show error page if student is not found
+		    }
+
+		    // Add the full student object to the model
+		    model.addAttribute("StudentRecord", student);
+             
+		   List<TrackFee> fee = feeService.getFeeByStuId(studentId);
+		    
+		   model.addAttribute("FeeRecord", fee);
+		    // Return the view name (JSP page)
+		    return "studentViewFees";
+	    }
+	    
+	    
+	    @GetMapping("/student/loadAllFees")
+	    public String loadAllFees(HttpSession session, Model model) {
+	    	// Retrieve studentId from session (assuming it's stored there)
+		    Integer studentId = (Integer) session.getAttribute("StudentId");
+		    System.out.println("studentId is"+studentId);
+
+		    if (studentId == null) {
+		        model.addAttribute("errorMessage", "Student not found!");
+		        return "studentLogin";
+		    }
+
+		    // Fetch the full student object based on studentId
+		    Student student = studentService.getStudentById(studentId);
+
+		    if (student == null) {
+		        model.addAttribute("errorMessage", "Student not found!");
+		        return "errorPage"; // Show error page if student is not found
+		    }
+
+		    // Add the full student object to the model
+		    model.addAttribute("StudentRecord", student);
+             
+		   List<TrackFee> fee = feeService.getFeeByStuId(studentId);
+		    
+		   model.addAttribute("FeeRecord", fee);
+		    // Return the view name (JSP page)
+		    return "feeTable";
+	    }
+	    
+	    
+	    
+	    
+	    @RequestMapping("/student/searchFee")
+	    public String searchFees(@RequestParam(value = "month", required = false) String month,
+	                             @RequestParam(value = "year", required = false) String year,
+	                             @RequestParam(value = "studentId") int studentId, // Assuming studentId is a Long
+	                             Model model) {
+	        
+	        // You can create a list of fees based on the parameters received
+	        List<TrackFee> filteredFees;
+
+	        if (month != null && year != null) {
+	            // Fetch fees based on month, year, and studentId
+	            filteredFees = feeService.getFeesByMonthYearAndStudent(month, year, studentId);
+	            
+	           
+	        } else if (month != null) {
+	            // Fetch fees based only on month and studentId
+	            filteredFees = feeService.getFeesByMonthAndStudent(month, studentId);
+	        } else if (year != null) {
+	            // Fetch fees based only on year and studentId
+	            filteredFees = feeService.getFeesByYearAndStudent(year, studentId);
+	        } else {
+	            // Fetch all fees for the student
+	            filteredFees = feeService.getAllFeesByStudent(studentId);
+	        }
+
+	        // Add fees to model or return them directly to the view
+	        model.addAttribute("FeeRecord", filteredFees);
+
+	      }
+
+	        // Return the HTML content
+	        return "feeTable";
+	    }
+
+	
+
+	    }
+	    
+

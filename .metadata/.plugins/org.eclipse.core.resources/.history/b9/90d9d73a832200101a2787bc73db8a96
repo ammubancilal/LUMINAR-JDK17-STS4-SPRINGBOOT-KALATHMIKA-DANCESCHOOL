@@ -1,0 +1,22 @@
+package com.luminar.springbootkalathmika.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/admin")
+public class EventController {
+	
+	
+	@Autowired
+    private EventService eventService;
+
+    // ✅ Map the /admin/Events to events.jsp
+    @GetMapping("/Events")
+    public String showEventsPage(Model model) {
+        List<Event> events = eventService.getAllEvents(); // Fetch all events
+        model.addAttribute("events", events);             // Pass list to JSP
+        return "events";  // => loads events.jsp
+    }
+
+}

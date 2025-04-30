@@ -1,0 +1,21 @@
+<c:forEach var="student" items="${students}" varStatus="status">
+    <tr>
+        <td>${status.index + 1}</td> <!-- Serial Number -->
+        <td>${student.stu_name}</td>
+        <td>${student.stu_dob}</td>
+        <td>${student.stu_gender}</td>
+        <td>${student.stu_parent_name}</td>
+        <td>${student.stu_contact_number}</td>
+        <td>${student.stu_email}</td>
+        <td>${student.stu_address}</td>
+        <td>${student.stu_dateof_join}</td>
+        <td>${student.stu_dance_form}</td>
+        <td>${student.stu_level}</td>
+        <td>
+            <button class="edit-btn" onclick="location.href='editStudent?stu_id=${student.stu_id}'">Edit</button>
+        </td>
+        <td>
+            <button class="delete-btn" onclick="if(confirm('Are you sure?')) location.href='deleteStudent?stu_id=${student.stu_id}'">Delete</button>
+        </td>
+    </tr>
+</c:forEach>

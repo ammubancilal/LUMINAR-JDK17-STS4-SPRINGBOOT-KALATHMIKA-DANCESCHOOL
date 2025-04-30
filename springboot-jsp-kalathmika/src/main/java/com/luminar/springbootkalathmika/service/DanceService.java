@@ -1,0 +1,25 @@
+package com.luminar.springbootkalathmika.service;
+
+import java.util.List;
+
+import com.luminar.springbootkalathmika.model.Dance;
+
+public interface DanceService {
+
+	public List<Dance> getAllDanceForms();
+
+	public void saveDanceForm(Dance danceForm);
+
+	public void saveDance(Dance dance);
+
+	public Dance getDanceById(int id);
+
+	public void deleteDanceById(int id);
+
+	public List<Dance> findByDanceNameContainingIgnoreCase(String keyword);
+
+	public List<Dance> getAllDances();
+
+	
+
+}
