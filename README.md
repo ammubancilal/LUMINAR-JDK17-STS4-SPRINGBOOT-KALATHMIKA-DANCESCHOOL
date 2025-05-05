@@ -1,7 +1,7 @@
-Kalathmika is an institution for classical dance where every one can learn classical dance
+Kalathmika is a  school for classical dance where every one can learn classical dance
 without any age limit. my spring boot project is related to this.
 there are mainly two modules Admin and Student modules.Admin has all privileges to 
-handle the institution . He/she can manage students.where admin can add,update delete and search 
+handle the dance school . He/she can manage students.where admin can add,update delete and search 
 Student details.  similarly, dance styles,track fee,class schedule,event section 
 are included.
      The next Student module where each Student can login to the system
